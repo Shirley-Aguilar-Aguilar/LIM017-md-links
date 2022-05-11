@@ -1,7 +1,23 @@
 {
-  "name": "md-links",
-  "version": "0.1.0",
-  "engines": {
-    "node": ">=14.x"
-  }
+  "name": "lim017-md-links-sa",
+  "version": "1.0.0",
+  "description": "Creación de libreria y CLI",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shirley-Aguilar-Aguilar/LIM017-md-links.git"
+  },
+  "keywords": [],
+  "author": "Shirley B Aguilar Aguilar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shirley-Aguilar-Aguilar/LIM017-md-links/issues"
+  },
+  "homepage": "https://github.com/Shirley-Aguilar-Aguilar/LIM017-md-links#readme"
 }
