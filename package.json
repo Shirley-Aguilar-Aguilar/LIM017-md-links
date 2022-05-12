@@ -1,23 +1,52 @@
 {
   "name": "lim017-md-links-sa",
   "version": "1.0.0",
-  "description": "Creación de libreria y CLI",
+  "description": "link analysis in markdown files ",
   "main": "index.js",
+  "files": [
+    "index.js",
+    "clifunctions.js"
+  ],
   "directories": {
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "eslint": "eslint --ext .js test/",
+    "pretest": "npm run eslint",
+    "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Shirley-Aguilar-Aguilar/LIM017-md-links.git"
   },
-  "keywords": [],
-  "author": "Shirley B Aguilar Aguilar",
-  "license": "ISC",
+  "keywords": [
+    "links",
+    "markdown",
+    "link broken"
+  ],
+  "author": "Shirley B Aguilar Aguilar <shirley.aguilar.agui@gmail.com>",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Shirley-Aguilar-Aguilar/LIM017-md-links/issues"
   },
-  "homepage": "https://github.com/Shirley-Aguilar-Aguilar/LIM017-md-links#readme"
+  "homepage": "https://github.com/Shirley-Aguilar-Aguilar/LIM017-md-links#readme",
+  "bin": {
+    "md-links": "cliFunctions.js"
+  },
+  "dependencies": {
+    "chalk": "^5.0.1",
+    "jest": "^28.0.2"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.10",
+    "@babel/preset-env": "^7.17.10",
+    "@babel/plugin-transform-modules-commonjs": "^7.17.9",
+    "babel-jest": "^27.5.1",
+    "eslint": "^8.14.0",
+    "jest": "^28.1.0"
+  },
+  "engines": {
+    "node": ">=14"
+  }
 }
