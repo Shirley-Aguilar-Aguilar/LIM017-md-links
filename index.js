@@ -1,9 +1,84 @@
-// Desde este archivo debes exportar una función (mdLinks).
-// package.json con nombre, versión, descripción, autores, licencia, dependencias, scripts (pretest, test, ...), main, bin
-// .editorconfig con configuración para editores de texto. Este archivo no se debe cambiar.
-// .eslintrc con configuración para linter. Este archivo contiene una configuración básica para ESLint, si deseas agregar reglas adicionales como Airbnb deberás modificar este archivo.
-// .gitignore para ignorar node_modules u otras carpetas que no deban incluirse en control de versiones (git).
-// test/md-links.spec.js debe contener los tests unitarios para la función mdLinks(). Tu inplementación debe pasar estos tets.
-module.exports = () => {
-  // ...
-};
+#!/usr/bin/env node
+const path = require('node:path');
+const { existsSync, statSync } = require('node:fs');
+
+
+// saca todos los archivos md // continua searchLinks
+const searchFilesMdOnDirectory = () => { 
+
+}
+
+// recursividad de buscar links// retorna todos los links
+const searchLinks = () => { 
+
+}
+//directorio= recursividad searchFilesOnDirectory retorna array de directorios
+// archivo.md = recursividad de archivomdsearchLinks
+const searchFilesOrDirectory = (pathAbsolute, option) => { 
+  const directories = statSync(pathAbsolute).isDirectory();
+  console.log(directories + 'directories');
+  const files = statSync(pathAbsolute).isFile();
+  console.log(files+ 'files');
+}
+
+// es absoluta o relativa(convierte a absoluta)- retorna la absoluta(searchFiles)
+const validateRouteAbsolute = (paths, option) => { 
+  return path.isAbsolute(paths) ? searchFilesOrDirectory(paths,option) : searchFilesOrDirectory(path.resolve(paths),option);
+}
+
+// ruta existe(validateRoute) // no existe(mensaje de error) 
+const validatePath = (path, option) => { 
+  return  existsSync(path)? validateRouteAbsolute(path, option) : console.log('Sorry, this route does not exist.');
+}
+
+const validateOptions = () => {
+    // devuelve el elemento del array con index 2(md-links)
+    const option = process.argv.slice(2)[0]; 
+    const path = process.argv.slice(2)[1];
+    let result = false
+    console.log(path);
+    switch (option) {
+        case '--validateAndStats':
+           validatePath(path, option);
+           result = true;
+          break;
+        case '--validate':
+           validatePath(path, option);
+           result = true;
+          break;
+        case '--stats':
+           validatePath(path, option);
+           result = true;
+          break;
+        default:  
+          console.log('Sorry, this option does not exist.');
+          result = false;
+    }
+    return result;
+}
+
+validateOptions();
+
+
+
+
+
+// si validate true return 
+const mdlinks = (path, options) => {  
+
+}
+
+
+// --validate href text  file status ok
+// --stats total unique
+// --stats --validate  total,unique,broken
+
+    //const path = 'C:\Users\ruben\Desktop\MD_LINKS\LIM017-md-links\examples\readme1.md';
+    // const path = './examples/readme1.md;
+    // const path = 'C:\Users\ruben\Desktop\MD_LINKS\LIM017-md-links\examples\readme1/x';
+     // const path = './examples/readme/readme1.md;
+
+
+     module.exports = () => {
+        // ...
+      };
