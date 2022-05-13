@@ -4,10 +4,10 @@
   "description": "link analysis in markdown files ",
   "main": "index.js",
   "files": [
-    "index.js",
-    "clifunctions.js"
+    "index.js"
   ],
   "directories": {
+    "example": "examples",
     "test": "test"
   },
   "scripts": {
@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/Shirley-Aguilar-Aguilar/LIM017-md-links#readme",
   "bin": {
-    "md-links": "cliFunctions.js"
+    "md-links": "index.js"
   },
   "dependencies": {
     "chalk": "^5.0.1",
