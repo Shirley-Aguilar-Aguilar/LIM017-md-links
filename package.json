@@ -12,8 +12,8 @@
   },
   "scripts": {
     "eslint": "eslint --ext .js test/",
-    "pretest": "npm run eslint",
-    "test": "jest --verbose --coverage",
+    "pretest.off": "npm run eslint",
+    "test": "jest --coverage",
     "lint-fix": "eslint . --ext .js --fix"
   },
   "repository": {

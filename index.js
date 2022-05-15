@@ -12,6 +12,7 @@ const pathToAbsolute = (paths) => path.resolve(paths);
 const readFile = (file) => fs.readFileSync(file, "utf-8");//
 const readDirectory = (directory) => fs.readdirSync(directory); // array
 const verifyMdFile = (file) => path.extname(file) === ".md";
+const readLinks = (route) => fs.readlinkSync(route);
 
 // saca todos los archivos md // continua searchLinks
 
@@ -28,8 +29,6 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
     });
   } else if ((itsFile(pathAbs)) && (verifyMdFile(pathAbs))) {
     allArrayFilesMd.push(pathAbs);
-  } else {
-    console.log("");
   }
   return allArrayFilesMd;
 };
@@ -43,18 +42,76 @@ const getFilesIfRouteExistOrExit = (route) => {
     searchFilesOrDirectory(ABSOLUTE_PATH, arrayOfFiles);
   } else {
     console.log("Sorry, this route does not exist.");
-    process.exit(1); // terminar el programa
   }
   return arrayOfFiles;
 };
+// funcion para leer contenido de un archivo
+const readFileContent = (route) => new Promise((resolve, reject) => {
+  readFile(route, "UTF-8", (error, data) => {
+    if (error) {
+      const message = "No se puede leer el archivo suministrado";
+      reject(message);
+    } else {
+      console.log(data+'-->contenido linea 56');
+      resolve(data);
+    }
+  });
+});
 
 // recursividad de buscar links// retorna todos los links
-const getLinks = (arrayFiles) => {
- 
-};
+const getLinks = (arrayFiles) => new Promise((resolve, reject) => {
+  const regxLink = /\[([\w\s\d.()]+)\]\(((?:\/|https?:\/\/)[\w\d./?=#&_%~,.:-]+)\)/mg;
+  const regxUrl = /\(((?:\/|https?:\/\/)[\w\d./?=#&_%~,.:-]+)\)/mg;
+  const regxText = /\[[\w\s\d.()]+\]/;
+
+  arrayFiles.forEach((onlyRouteFile) => {
+    console.log(readFile(onlyRouteFile));
+    readFileContent(onlyRouteFile)
+    .then((content) => {
+      console.log(data+'-->contenido linea 72');
+    })
+    .catch((message) => {
+     console.error(message)
+    })
+  });
+
+
+  /* readFileContent(pathMd)
+    .then((fileContent) => {
+      const linksArray = fileContent.match(regxLink); // revisa content archivo para capturar links
+
+      if (linksArray === null) { // si no hay links en archivo retorna []
+        resolve([]);
+      }
+
+      const turnedLinksArray = linksArray.map((myLinks) => { // transforma arr links y entrega objt
+        const myhref = myLinks.match(regxUrl).join().slice(1, -1); // URL encontradas
+        const mytext = myLinks.match(regxText).join().slice(1, -1); // texto que hace ref a URL
+        return {
+          href: myhref,
+          text: mytext.substring(0, 50),
+          fileName: path.basename(pathMd), // ruta de URL
+        };
+      });
+      resolve(turnedLinksArray);
+    })
+    .catch((error) => {
+      reject(error);
+    });*/
+}); 
+
+/* arrayFiles.forEach((onlyFile) => {
+  console.log(readFile(onlyFile))
+  const text = readFile(onlyFile);
+  // readLinks(text);
+  // console.log(readLinks(text));
+  console.log(readLinks(onlyFile));
+});
+ */
 
 const processUserInput = (route, option) => {
   let arrayFilesMD = [];
+  let result;
   switch (option) {
     case "--validateAndStats":
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
@@ -75,12 +132,14 @@ const processUserInput = (route, option) => {
       break;
     default:
       console.log("Sorry, this option does not exist.");
+      result = "Sorry, this option does not exist.";
   }
+  return result;
 };
 
 processUserInput(routeUser, optionUser);
 
-const mdlinks = (route, options) => {
+const mdlinks = (route, options) => { // retorna promesaaaaaaaaaaaaa
 
 };
 
@@ -93,6 +152,6 @@ const mdlinks = (route, options) => {
 // const path = 'C:\Users\ruben\Desktop\MD_LINKS\LIM017-md-links\examples\readme1/x';
 // const path = './examples/readme/readme1.md;
 
-module.exports = () => {
-  processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory
+module.exports = {
+  processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory,
 };
