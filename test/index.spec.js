@@ -1,5 +1,5 @@
 const {
-  mdLinks, validateOptions, validatePath,
+  processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory,
 } = require("../index.js");
 
 jest.mock("node_modules");
@@ -18,9 +18,7 @@ jest.mock("node_modules");
 describe("validatePath", () => {
   it("should...", () => {
     const pathUser = "./examples/readme1.md";
-    const option = "--validate";
-
-    expect(validatePath(pathUser, option)).toBe(true);
+    expect(getFilesIfRouteExistOrExit(pathUser)).toBe("readme1.md");
   });
 });
 
