@@ -16,8 +16,7 @@ const readDirectory = (directory) => fs.readdirSync(directory); // array
 const verifyMdFile = (file) => path.extname(file) === ".md";
 const readLinks = (route) => fs.readlinkSync(route);
 
-// saca todos los archivos md // continua searchLinks
-
+// saca todos los archivos md
 const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
   if (itsDirectory(pathAbs)) {
     const content = readDirectory(pathAbs);
@@ -48,46 +47,42 @@ const getFilesIfRouteExistOrExit = (route) => {
   return arrayOfFiles;
 };
 
-
-const searchLinks = (contentSeparated, links) => {
-  const regexLink = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
-  contentSeparated.forEach((link) => {
-    if (link.match(regexLink)) {
-      links.push(link.match(regexLink)[0]);
-    } else {
-    }
-  });
-  return links;
-};
-
 const getLinks = (arrayFiles) => {
-  console.log("dentro de getLinks");
+  const regexLink = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
   const arrayLinks = [];
   arrayFiles.forEach((file) => {
     const content = readFile(file);
     const contentSeparated = content.split(" ");
-    const linksTogether = searchLinks(contentSeparated, []);
-    arrayLinks.push(linksTogether);
+    contentSeparated.forEach((link) => {
+      if (link.match(regexLink)) {
+        arrayLinks.push(link.match(regexLink)[0]);
+      }
+    });
   });
   return arrayLinks;
 };
 
+const mdlinks = (route, {validate:}) => { // retorna promesaaaaaaaaaaaaa
+
+};
+
 const processUserInput = (route, option) => {
   let arrayFilesMD = [];
+  let arrayLinks = "";
   let result;
   switch (option) {
     case "--validateAndStats":
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      getLinks(arrayFilesMD);
+      arrayLinks = getLinks(arrayFilesMD);
       break;
     case "--validate":
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      console.log(arrayFilesMD);
-      console.log(getLinks(arrayFilesMD));
+      arrayLinks = getLinks(arrayFilesMD);
+      console.log(arrayLinks);
       break;
     case "--stats":
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      getLinks(arrayFilesMD);
+      arrayLinks = getLinks(arrayFilesMD);
       break;
     case "--filesMD":
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
@@ -102,9 +97,6 @@ const processUserInput = (route, option) => {
 
 processUserInput(routeUser, optionUser);
 
-const mdlinks = (route, options) => { // retorna promesaaaaaaaaaaaaa
-
-};
 
 // --validate href text  file status ok
 // --stats total unique
@@ -116,5 +108,5 @@ const mdlinks = (route, options) => { // retorna promesaaaaaaaaaaaaa
 // const path = './examples/readme/readme1.md;
 
 module.exports = {
-  processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory,
+  processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory, getLinks,
 };
