@@ -1,6 +1,6 @@
 const {
   processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory,
-} = require("../index.js");
+} = require("../index");
 
 describe("searchFilesOrDirectory", () => {
   it("función retorna en un array el archivo", () => {
@@ -29,7 +29,7 @@ describe("getFilesIfRouteExistOrExit", () => {
 });
 
 describe("processUserInput", () => {
-  it("función retorna un mensaje de error cuando la opción es inavlida", () => {
+  it("función retorna un mensaje de error cuando la opción es inválida", () => {
     const routeUser = "./examples/readme1.md";
     const optionUser = "--validat";
     expect(processUserInput(routeUser, optionUser)).toBe("Sorry, this option does not exist.");

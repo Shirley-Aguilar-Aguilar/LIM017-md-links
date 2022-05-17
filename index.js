@@ -3,10 +3,12 @@ const path = require("node:path");
 const fs = require("node:fs");
 const http = require("node:http");
 const https = require("node:https");
+const url = require("node:url");
+const urlExists = require("url-exists-deep");
 
 const inputUser = process.argv.slice(2);
-const optionUser = inputUser[0];
-const routeUser = inputUser[1];
+const optionUser = inputUser[1];
+const routeUser = inputUser[0];
 const existRoute = (route) => fs.existsSync(route);
 const itsDirectory = (route) => fs.statSync(route).isDirectory();
 const itsFile = (route) => fs.statSync(route).isFile();
@@ -14,7 +16,8 @@ const pathToAbsolute = (paths) => path.resolve(paths);
 const readFile = (file) => fs.readFileSync(file, "utf-8");//
 const readDirectory = (directory) => fs.readdirSync(directory); // array
 const verifyMdFile = (file) => path.extname(file) === ".md";
-const readLinks = (route) => fs.readlinkSync(route);
+const readLinks = (route) => fs.readlinkSync(route, "utf-8");
+const pathnameurlToHttpOptions = (link) => url.urlToHttpOptions(link);
 
 // saca todos los archivos md
 const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
@@ -50,8 +53,8 @@ const getFilesIfRouteExistOrExit = (route) => {
 const getLinks = (arrayFiles) => {
   const regexLink = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
   const arrayLinks = [];
-  arrayFiles.forEach((file) => {
-    const content = readFile(file);
+  arrayFiles.forEach((files) => {
+    const content = readFile(files);
     const contentSeparated = content.split(" ");
     contentSeparated.forEach((link) => {
       if (link.match(regexLink)) {
@@ -62,8 +65,22 @@ const getLinks = (arrayFiles) => {
   return arrayLinks;
 };
 
-const mdlinks = (route, {validate:}) => { // retorna promesaaaaaaaaaaaaa
+const linkFuncionality = (link) => Promise.resolve((urlExists(link)));
 
+const propertiesLinks = (arrayLinks) => {
+  Promise.allSettled(arrayLinks)
+    .then((content) => {
+      content.forEach((link) => {
+        linkFuncionality(link.value)
+          .then((value) => {
+            console.log("this value");
+            console.log(value);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
+    });
 };
 
 const processUserInput = (route, option) => {
@@ -79,6 +96,7 @@ const processUserInput = (route, option) => {
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
       arrayLinks = getLinks(arrayFilesMD);
       console.log(arrayLinks);
+      propertiesLinks(arrayLinks);
       break;
     case "--stats":
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
@@ -97,15 +115,9 @@ const processUserInput = (route, option) => {
 
 processUserInput(routeUser, optionUser);
 
-
 // --validate href text  file status ok
 // --stats total unique
 // --stats --validate  total,unique,broken
-
-// const path = 'C:\Users\ruben\Desktop\MD_LINKS\LIM017-md-links\examples\readme1.md';
-// const path = './examples/readme1.md;
-// const path = 'C:\Users\ruben\Desktop\MD_LINKS\LIM017-md-links\examples\readme1/x';
-// const path = './examples/readme/readme1.md;
 
 module.exports = {
   processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory, getLinks,
