@@ -17,7 +17,10 @@ const readFile = (file) => fs.readFileSync(file, "utf-8");//
 const readDirectory = (directory) => fs.readdirSync(directory); // array
 const verifyMdFile = (file) => path.extname(file) === ".md";
 const readLinks = (route) => fs.readlinkSync(route, "utf-8");
-const pathnameurlToHttpOptions = (link) => url.urlToHttpOptions(link);
+const httpOptions = (link) => url.urlToHttpOptions(link);
+// const searchOption = (link) => link.search(link);
+const getStatusHttps = https.get;
+const getStatusHttp = http.get;
 
 // saca todos los archivos md
 const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
@@ -50,57 +53,85 @@ const getFilesIfRouteExistOrExit = (route) => {
   return arrayOfFiles;
 };
 
-const getLinks = (arrayFiles) => {
-  const regexLink = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/;
+const getStatusCode = (link) => new Promise((resolve) => {
+  const linkNew = new URL(link);
+  const optionsLink = httpOptions(linkNew);
+  if (optionsLink.protocol === "https:") {
+    getStatusHttps(link, (res) => {
+      console.log("statusCode:", res.statusCode);
+      resolve(res.statusCode);
+    });
+  } else {
+    getStatusHttp(link, (res) => {
+      console.log("statusCode:", res.statusCode);
+      resolve(res.statusCode);
+    });
+  }
+});
+
+const getTextFileHref = (arrayFiles) => new Promise((resolve) => {
+  const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
+  const singleMatch = /\[([^\[]+)\]\((.*)\)/;
+  const arrayLinksObjects = [];
   const arrayLinks = [];
   arrayFiles.forEach((files) => {
     const content = readFile(files);
-    const contentSeparated = content.split(" ");
-    contentSeparated.forEach((link) => {
-      if (link.match(regexLink)) {
-        arrayLinks.push(link.match(regexLink)[0]);
+    const matches = content.match(regexMdLinks);
+    if (matches) {
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < matches.length; i++) {
+        const text = singleMatch.exec(matches[i]);
+        arrayLinksObjects.push({
+          file: files,
+          href: text[2],
+          text: text[1],
+        });
+        arrayLinks.push(text[2]);
       }
-    });
+    } else {
+      console.log("archivo sin links");
+    }
   });
-  return arrayLinks;
-};
+  resolve(arrayLinksObjects);
+});
 
-const linkFuncionality = (link) => Promise.resolve((urlExists(link)));
-
-const propertiesLinks = (arrayLinks) => {
-  Promise.allSettled(arrayLinks)
-    .then((content) => {
-      content.forEach((link) => {
-        linkFuncionality(link.value)
-          .then((value) => {
-            console.log("this value");
-            console.log(value);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      });
-    });
-};
+const getArrayLinks = (arrayFiles) => new Promise((resolve) => {
+  const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
+  const singleMatch = /\[([^\[]+)\]\((.*)\)/;
+  const arrayLinks = [];
+  arrayFiles.forEach((files) => {
+    const content = readFile(files);
+    const matches = content.match(regexMdLinks);
+    if (matches) {
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < matches.length; i++) {
+        const text = singleMatch.exec(matches[i]);
+        arrayLinks.push(text[2]);
+      }
+    } else {
+      console.log("archivo sin links");
+    }
+  });
+  resolve(arrayLinks);
+});
 
 const processUserInput = (route, option) => {
   let arrayFilesMD = [];
   let arrayLinks = "";
   let result;
   switch (option) {
-    case "--validateAndStats":
+    case "--validate--Stats":
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      arrayLinks = getLinks(arrayFilesMD);
+      arrayLinks = getArrayLinks(arrayFilesMD);
       break;
     case "--validate":
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      arrayLinks = getLinks(arrayFilesMD);
+      arrayLinks = getTextFileHref(arrayFilesMD);
       console.log(arrayLinks);
-      propertiesLinks(arrayLinks);
       break;
     case "--stats":
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      arrayLinks = getLinks(arrayFilesMD);
+      arrayLinks = getArrayLinks(arrayFilesMD);
       break;
     case "--filesMD":
       arrayFilesMD = getFilesIfRouteExistOrExit(route);
@@ -120,5 +151,5 @@ processUserInput(routeUser, optionUser);
 // --stats --validate  total,unique,broken
 
 module.exports = {
-  processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory, getLinks,
+  processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory, getTextFileHref,
 };
