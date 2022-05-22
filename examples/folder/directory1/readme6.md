@@ -1,5 +1,5 @@
 Con el comando `npm install githubname/reponame` podemos instalar directamente
-desde GitHub. Ver [docs oficiales de `npm install` acá](https://docs.npmjs.com/cli/install).
+desde GitHub. Ver [docs oficiales de `npm install` acá](https://docs.npmjs.com/cli/install/shirley).
 
 Por ejemplo, el [`course-parser`](https://github.com/Laboratoria/course-parser)
 que usamos para la currícula no está publicado en el registro público de NPM,

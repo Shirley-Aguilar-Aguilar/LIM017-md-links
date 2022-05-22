@@ -1,8 +1,10 @@
 const {
-  processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory,
+  /* processUserInput, getFilesIfRouteExistOrExit, searchFilesOrDirectory, */
 } = require("../index");
 
-describe("searchFilesOrDirectory", () => {
+
+
+/* describe("searchFilesOrDirectory", () => {
   it("función retorna en un array el archivo", () => {
     const pathUser = "C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\readme1.md";
     expect(searchFilesOrDirectory(pathUser, [])).toEqual(["C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\readme1.md"]);
@@ -39,3 +41,4 @@ describe("processUserInput", () => {
     expect(processUserInput(routeUser, optionUser)).toEqual([]);
   }); */
 });
+ */
