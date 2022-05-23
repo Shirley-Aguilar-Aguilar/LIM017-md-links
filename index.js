@@ -13,6 +13,7 @@ const {
   printObject,
   printObjectStats,
   printStatAndValidate,
+  printObjectFalse,
 } = require("./utils");
 
 const getTrueOrFalse = (input) => {
@@ -40,7 +41,7 @@ const getTrueOrFalse = (input) => {
 // eslint-disable-next-line no-confusing-arrow
 const validateRoute = (route) => existRoute(route) ? route : "inexistente";
 
-const mdLinks = (route, option) => new Promise((resolve, reject) => {
+const mdLinks = (route, option, inputUser) => new Promise((resolve, reject) => {
   // const option = getTrueOrFalse(inputUser)
   // const route =validateRoute(routeUser)
   console.log(option);
@@ -56,16 +57,22 @@ const mdLinks = (route, option) => new Promise((resolve, reject) => {
         if(inputUser[1] === undefined) {
           if( inputUser[0]=== "--stats") {
             printObjectStats(arrayObject)
+            resolve(arrayObject)
+          } else if(inputUser[0] === undefined) { // cuando solo colocamos la ruta
+            printObjectFalse(arrayObject);
+            resolve(arrayObject)
+          } else if(inputUser[0] === "{validate:true}") {
+            resolve(arrayObject);
           }else {
             printObject(arrayObject);
+            resolve(arrayObject);
           }
-          
-          resolve(arrayObject);
+
         } else {
           const arrayObjectStats = getStatsUniqueBroken(arrayObject);
           // console.log(arrayObjectStats );
           printStatAndValidate(arrayObjectStats);
-          resolve(arrayObjectStats)
+          resolve(arrayObject)
         }
         
       })
@@ -75,18 +82,13 @@ const mdLinks = (route, option) => new Promise((resolve, reject) => {
   }
 });
 
-mdLinks(validateRoute(routeUser), getTrueOrFalse(inputUser));
+mdLinks(validateRoute(routeUser), getTrueOrFalse(inputUser), inputUser);
 
 
 
 module.exports = {
+  mdLinks,
+  validateRoute,
+  getTrueOrFalse,
 
-
-  /*   processUserInput,
-    getFilesIfRouteExistOrExit,
-    searchFilesOrDirectory,
-    getTextFileHref,
-    validityStatusCode, */
 };
-// mdLinks("./examples/Folder/directory1")
-// .then((a)=>  console.log(a))

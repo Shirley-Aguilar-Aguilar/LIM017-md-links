@@ -41,7 +41,6 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
     const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
     const singleMatch = /\[([^\[]+)\]\((.*)\)/;
     const arrayLinksObjects = [];
-    const arrayLinks = [];
     arrayFiles.forEach((files) => {
       const content = readFile(files);
       // const fileRelative = pathToRelative(files.toString());
@@ -65,7 +64,6 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
             href: text[2],
             text: newText,
           });
-          arrayLinks.push(text[2]);
         }
       }
     });
@@ -101,16 +99,16 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
     return "Fail";
   };
 
-const getPropertiesOfObject = (route, optionTrueFalse, arrayOptionsCmd) => new Promise ((resolve, reject) => {
+const getPropertiesOfObject = (route, optionTrueFalse) => new Promise ((resolve, reject) => {
     const ABSOLUTE_PATH = pathToAbsolute(route);
-    console.log(ABSOLUTE_PATH);
+   // console.log(ABSOLUTE_PATH);
     const arrayOfFiles = [];
     const arrayOfFilesMd = searchFilesOrDirectory(ABSOLUTE_PATH, arrayOfFiles);
     const arrayLinksObject = getTextFileHref(arrayOfFilesMd);
    if(optionTrueFalse) {
        const array = [];
     arrayLinksObject.forEach((objectOnly) => {
-      console.log(objectOnly.href)
+      // console.log(objectOnly.href)
         getStatusCode(objectOnly.href)
           .then((n) => {
             // eslint-disable-next-line no-param-reassign
@@ -122,7 +120,6 @@ const getPropertiesOfObject = (route, optionTrueFalse, arrayOptionsCmd) => new P
                 resolve(array);
             }         
           })
-          .catch((error) => console.error(error));
       });
   } else {
     //console.log("arrayLinksObject")
@@ -147,12 +144,11 @@ const getLinks = (arrayObject) => {
     return arrayUnique; 
   },arrayLinks[0] );
   countUnique = res.length;
-  return countUnique
+  return countUnique;
 }
 const getStatsUniqueBroken = (arrayObject) => {
   const allStats = [];
   let countTotal = 0;
-  let countUnique = 0;
   let countBroquen = 0;
   const linksUnique = getLinks(arrayObject);
   arrayObject.forEach((onlyObject) => {
@@ -170,6 +166,7 @@ const getStatsUniqueBroken = (arrayObject) => {
 return allStats;
 }
 const getStatsUnique = (arrayObject) => {
+  console.log(arrayObject)
   const allStats = [];
   let countTotal = 0;
   const linksUnique = getLinks(arrayObject);
@@ -187,6 +184,12 @@ module.exports = {
   getPropertiesOfObject,
   getStatsUniqueBroken,
   getStatsUnique,
+  getLinks,
+  getPropertiesOfObject,
+  validityStatusCode,
+  getStatusCode,
+  getTextFileHref,
+  searchFilesOrDirectory,
   
 };
 

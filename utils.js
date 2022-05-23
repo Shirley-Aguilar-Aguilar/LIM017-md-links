@@ -1,10 +1,12 @@
 const chalk = require("chalk");
 const {
     getStatsUnique,
-} = require("./methods")
+} = require("./methods");
+
+
 const printObject = (arrayObject) => {
-console.log(arrayObject)
-arrayObject.forEach(propertiesObject => {
+// console.log(arrayObject)
+return arrayObject.forEach(propertiesObject => {
     const file = chalk.green(propertiesObject.file);
     const link = chalk.yellow(propertiesObject.href);
     const number = chalk.yellowBright(propertiesObject.statusCode);
@@ -13,12 +15,23 @@ arrayObject.forEach(propertiesObject => {
     const color = (propertiesObject.status === "Fail") ? chalk.bold.redBright(status) : chalk.bold.magenta(status)
     const options = `File:${file} Href:${link} Text:${text} Status:${color} StatusCode:${number}`;
     console.log(options)
+    return options;
+});
+}
+
+const  printObjectFalse = (arrayObject) => {
+  arrayObject.forEach(propertiesObject => {
+    const file = chalk.green(propertiesObject.file);
+    const link = chalk.yellow(propertiesObject.href);
+    const text = chalk.blue(propertiesObject.text)
+    const options = `File:${file} Href:${link} Text:${text}`;
+    console.log(options)
 });
 }
 
 const printObjectStats = (arrayObject) => {
   const stats = getStatsUnique(arrayObject);
-  console.log("stats")
+  // console.log("stats")
   // console.log(stats)
   stats.forEach((stat) => {
     const options = `
@@ -48,4 +61,5 @@ module.exports = {
     printObject,
     printObjectStats,
     printStatAndValidate,
+    printObjectFalse,
 };
