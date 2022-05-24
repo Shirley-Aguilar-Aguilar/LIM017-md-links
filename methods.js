@@ -41,10 +41,8 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
     const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
     const singleMatch = /\[([^\[]+)\]\((.*)\)/;
     const arrayLinksObjects = [];
-    const arrayLinks = [];
     arrayFiles.forEach((files) => {
       const content = readFile(files);
-      // const fileRelative = pathToRelative(files.toString());
       const matches = content.match(regexMdLinks);
       if (matches) {
         // eslint-disable-next-line no-plusplus
@@ -52,20 +50,13 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
           const text = singleMatch.exec(matches[i]);
           let newText = text[1];
           if(text[1].length > 50) {
-            // console.log("text[1].length");
-            // console.log(text[1].length);
               newText = text[1].slice(0,50);
-             //  console.log("text[1].slice(50);");
-            // console.log();
           }
-          // console.log("newText");
-          // console.log(newText);
           arrayLinksObjects.push({
             file: files,
             href: text[2],
             text: newText,
           });
-          arrayLinks.push(text[2]);
         }
       }
     });
@@ -101,16 +92,15 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
     return "Fail";
   };
 
-const getPropertiesOfObject = (route, optionTrueFalse, arrayOptionsCmd) => new Promise ((resolve, reject) => {
+const getPropertiesOfObject = (route, optionTrueFalse) => new Promise ((resolve) => {
     const ABSOLUTE_PATH = pathToAbsolute(route);
-    console.log(ABSOLUTE_PATH);
     const arrayOfFiles = [];
     const arrayOfFilesMd = searchFilesOrDirectory(ABSOLUTE_PATH, arrayOfFiles);
     const arrayLinksObject = getTextFileHref(arrayOfFilesMd);
-   if(optionTrueFalse) {
+   if(optionTrueFalse.validate = true) {
        const array = [];
     arrayLinksObject.forEach((objectOnly) => {
-      console.log(objectOnly.href)
+      // console.log(objectOnly.href)
         getStatusCode(objectOnly.href)
           .then((n) => {
             // eslint-disable-next-line no-param-reassign
@@ -122,11 +112,8 @@ const getPropertiesOfObject = (route, optionTrueFalse, arrayOptionsCmd) => new P
                 resolve(array);
             }         
           })
-          .catch((error) => console.error(error));
       });
   } else {
-    //console.log("arrayLinksObject")
-     // console.log(arrayLinksObject)
      resolve(arrayLinksObject);
 
    }
@@ -147,12 +134,11 @@ const getLinks = (arrayObject) => {
     return arrayUnique; 
   },arrayLinks[0] );
   countUnique = res.length;
-  return countUnique
+  return countUnique;
 }
 const getStatsUniqueBroken = (arrayObject) => {
   const allStats = [];
   let countTotal = 0;
-  let countUnique = 0;
   let countBroquen = 0;
   const linksUnique = getLinks(arrayObject);
   arrayObject.forEach((onlyObject) => {
@@ -170,6 +156,7 @@ const getStatsUniqueBroken = (arrayObject) => {
 return allStats;
 }
 const getStatsUnique = (arrayObject) => {
+  // console.log(arrayObject)
   const allStats = [];
   let countTotal = 0;
   const linksUnique = getLinks(arrayObject);
@@ -187,139 +174,11 @@ module.exports = {
   getPropertiesOfObject,
   getStatsUniqueBroken,
   getStatsUnique,
+  getLinks,
+  getPropertiesOfObject,
+  validityStatusCode,
+  getStatusCode,
+  getTextFileHref,
+  searchFilesOrDirectory,
   
 };
-
-/* const getFilesIfRouteExistOrExit = (route) => {
-    let ABSOLUTE_PATH;
-    const arrayOfFiles = [];
-    if (existRoute(route)) {
-      ABSOLUTE_PATH = pathToAbsolute(route);
-      searchFilesOrDirectory(ABSOLUTE_PATH, arrayOfFiles);
-    } else {
-      console.log("Sorry, this route does not exist.");
-    }
-    return arrayOfFiles;
-} */
-
-      
-/* 
-
-/* // imprimir funcionalidad --validate
-const printArrayObjects = (propertiesObject) => {
-  const options = `${propertiesObject.file} ${propertiesObject.href} ${propertiesObject.text} ${propertiesObject.status} ${propertiesObject.statusCode}`;
-  console.log(options.length);
-  console.log(options);
-  return options;
-};
-// imprimir
-const printTotalUniqueBroken = (objectUnique) => {
-  const options = `  Total:${objectUnique.Total}  Unique:${objectUnique.Unique}  Broken:${objectUnique.Broken}`;
-  console.log(options);
-  return options;
-};
-
-const printgetTextFileHref = (arrayObject) => {
-  arrayObject.forEach((onlyObject) => {
-    const options = `${onlyObject.file} ${onlyObject.href} ${onlyObject.text} `;
-    console.log(options.length);
-    console.log(options);
-  });
-};
-
-
-
-
-
-
-
-
-const statsTotalUnique = (arrayLinks) => {
-  let countTotal = 0;
-  let countUnique = 0;
-  arrayLinks.forEach((link) => {
-    if (link) {
-      countTotal += 1;
-    }
-  });
-  const options = {
-    Total: countTotal,
-    Unique: countUnique,
-  };
-  return options;
-};
-
-const countStatusCode = (total, arrayNumber) => {
-  let count = 0;
-  arrayNumber.forEach((n) => {
-    if (validityStatusCode(n) === "Fail") {
-      count += 1;
-    }
-  });
-  // eslint-disable-next-line no-param-reassign
-  total.Broken = count;
-  return total;
-};
-const getValidateAndStats = (arrayLinks) => {
-  const count = [];
-  arrayLinks.forEach((link) => {
-    getStatusCode(link)
-      .then((n) => {
-        count.push(n);
-        if (count.length === arrayLinks.length) {
-          const total = statsTotalUnique(arrayLinks);
-          const newtotal = countStatusCode(total, count);
-          printTotalUniqueBroken(newtotal);
-        }
-      })
-      .catch((error) => console.error(error));
-  });
-};
-
-const processUserInput = (route, option) => {
-  let arrayFilesMD = [];
-  let arrayLinks = "";
-  let arrayObject = "";
-  let result = "";
-
-  switch (option) {
-    case "--validate--stats": case "--stats--validate":
-      arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      arrayLinks = getArrayLinks(arrayFilesMD);
-      result = getValidateAndStats(arrayLinks);
-      break;
-    case "--validate":
-      arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      arrayObject = getTextFileHref(arrayFilesMD);
-      result = getAllPropertiesOfObject(arrayObject);
-      break;
-    case "--stats":
-      arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      arrayLinks = getArrayLinks(arrayFilesMD);
-      result = statsTotalUnique(arrayLinks);
-      break;
-    case undefined:
-      arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      arrayObject = getTextFileHref(arrayFilesMD);
-      result = printgetTextFileHref(arrayObject);
-      break;
-    case "--filesMD":
-      arrayFilesMD = getFilesIfRouteExistOrExit(route);
-      result = arrayFilesMD;
-      break;
-    default:
-      result = "Sorry, this option does not exist.";
-  }
-  return (result !== undefined) ? console.log(result) : console.log("Resultado");
-};
-// stats 
-processUserInput(routeUser, optionUser); */
-
-
-
-// saca todos los archivos md
-/*
-
-// validación existencia
-
-}; */

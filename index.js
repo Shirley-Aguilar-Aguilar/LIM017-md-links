@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 const fs = require("node:fs");
 const inputUser = process.argv.slice(3);
-const routeUser = process.argv[2] //
-const existRoute = (route) => fs.existsSync(route); //
+const routeUser = process.argv[2]
+const existRoute = (route) => fs.existsSync(route);
 const chalk = require("chalk");
 
 const {
@@ -13,14 +13,30 @@ const {
   printObject,
   printObjectStats,
   printStatAndValidate,
+  printObjectFalse,
 } = require("./utils");
 
-const getTrueOrFalse = (input) => {
+
+
+// eslint-disable-next-line no-confusing-arrow
+const validateRoute = (route) => existRoute(route) ? route : "inexistente";
+
+const mdLinks = (route, options) => new Promise((resolve) => {
+    getPropertiesOfObject(route, options) // array de objetos
+      .then((arrayObject) => {
+        resolve(arrayObject);
+      })
+      .catch((error) => {
+          console.error(error);
+      });
+});
+
+const getExistOption = (input) => {
   let result;
-  if (input[0] === undefined) {
+   if (input[0] === undefined) {
     result = false;
   } else if (input[1] === undefined) {
-    if (input.includes("{validate:true}") || input.includes("--validate")) {
+    if (input.includes("--validate")) {
       result = true;
     } else if (input.includes("--stats")) {
       result = false;
@@ -33,60 +49,65 @@ const getTrueOrFalse = (input) => {
     } else {
       result = "inexistente";
     }
-  }
+  } 
   return result;
 };
 
-// eslint-disable-next-line no-confusing-arrow
-const validateRoute = (route) => existRoute(route) ? route : "inexistente";
-
-const mdLinks = (route, option) => new Promise((resolve, reject) => {
-  // const option = getTrueOrFalse(inputUser)
-  // const route =validateRoute(routeUser)
-  console.log(option);
-  if (option === "inexistente") {
+const cliFunction = (route, option) =>  {
+  const newOptions = getExistOption(option);
+  const newRoutes = validateRoute(route);
+  // const validateTrueOrFalse = option.includes('--validate')
+  if (newOptions === "inexistente") {
     console.log(chalk.red("Sorry, this option does not exist."));
   // reject(console.error(chalk.red("Sorry, this option does not exist.")));
-  } else if (route === "inexistente") {
+  } else if (newRoutes === "inexistente") {
     console.log(chalk.red("Sorry, this route does not exist."));
-    //  reject(console.error("Sorry, this route does not exist."))
+   // reject(console.error(chalk.red("Sorry, this route does not exist.")))
   } else {
-    getPropertiesOfObject(route, option, inputUser ) // array de objetos
-      .then((arrayObject) => {
-        if(inputUser[1] === undefined) {
-          if( inputUser[0]=== "--stats") {
-            printObjectStats(arrayObject)
-          }else {
-            printObject(arrayObject);
-          }
+    mdLinks(route, { validate : option.includes('--validate')})
+    .then((arrayObject) => {
+      if (option[0] === undefined) {
+        const result = printObjectFalse(arrayObject);
+        console.log(result);
+        return result;
+      } else if (option[1] === undefined) {
+        if (option[0] === "--validate") {
+          const result = printObject(arrayObject);
+          console.log(result);
+          return result;
           
-          resolve(arrayObject);
-        } else {
-          const arrayObjectStats = getStatsUniqueBroken(arrayObject);
-          // console.log(arrayObjectStats );
-          printStatAndValidate(arrayObjectStats);
-          resolve(arrayObjectStats)
+        } else if (option.includes("--stats")) {
+          const result = printObjectStats(arrayObject);
+          console.log(result);
+          return result;
         }
-        
-      })
-      .catch((error) => {
-          console.error(error);
-      });
+      } else {
+        if (option.includes("--stats") && option.includes("--validate")) {
+          const arrayObjectStats = getStatsUniqueBroken(arrayObject);
+          const result = printStatAndValidate(arrayObjectStats);
+          console.log(result);
+          return result;
+        }
+      }
+    })
+    .catch((error) => {
+      console.log("error")
+    console.log(error)
+    })
   }
-});
+}
 
-mdLinks(validateRoute(routeUser), getTrueOrFalse(inputUser));
+cliFunction(routeUser, inputUser);
+
+
 
 
 
 module.exports = {
+  mdLinks,
+  validateRoute,
+  cliFunction,
 
-
-  /*   processUserInput,
-    getFilesIfRouteExistOrExit,
-    searchFilesOrDirectory,
-    getTextFileHref,
-    validityStatusCode, */
 };
-// mdLinks("./examples/Folder/directory1")
-// .then((a)=>  console.log(a))
+
+
