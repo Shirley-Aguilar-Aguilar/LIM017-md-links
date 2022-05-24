@@ -104,4 +104,10 @@ describe("mdLinks", () => {
           }
     ]  
     )});
+
+    it("fffvvv", () => {
+        const route = "./examples/folder/directory1/readme6";
+        const option = true;
+        const input = ["--validate", "--stats" ]
+    expect( mdLinks(route, option, input)).reject.toEqual(console.error("Sorry, this route does not exist."));
 });

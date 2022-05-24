@@ -2,6 +2,7 @@ const {
     printObject,
     printObjectFalse,
     printObjectStats,
+    printStatAndValidate,
   } = require("../utils");
 
   describe("printObject", () => {
@@ -14,24 +15,49 @@ const {
               statusCode: 404,
               status: 'Fail'
             },
+          ];
+          expect(printObject(arrayObject)).toBe(true);
+      });
+  })
+
+  describe("printObjectFalse", () => {
+    it("Return a number of status code", () => {
+        const arrayObject = [
             {
               file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
-              href: 'https://github.com/Laboratoria/course-parser',
-              text: '`course-parser`',
-              statusCode: 301,
-              status: 'Ok'
-            }
+              href: 'https://docs.npmjs.com/cli/install/shirley',
+              text: 'docs oficiales de `npm install` acá más de 50 line',
+              statusCode: 404,
+              status: 'Fail'
+            },
           ];
-          expect(printObject(arrayObject)).toBe(undefined);
+          expect(printObjectFalse(arrayObject)).toBe(true);
       });
-
   })
 
-/*   describe("getTrueOrFalse", () => {
+
+  describe("printObjectStats", () => {
     it("Return a number of status code", () => {
-        const input = ["--validate", undefined];
-          expect(getTrueOrFalse(input)).toBe(true);
+        const arrayObject = [
+            {
+              file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
+              href: 'https://docs.npmjs.com/cli/install/shirley',
+              text: 'docs oficiales de `npm install` acá más de 50 line',
+            },
+          ];
+          expect(printObjectStats(arrayObject)).toBe(true);
       });
-
   })
- */
+
+  describe("printStatAndValidate", () => {
+    it("Return a number of status code", () => {
+        const arrayObject = [
+            {
+              Total: 1,
+              Unique: 1,
+              Broquen: 1,
+            },
+          ];
+          expect(printStatAndValidate(arrayObject)).toBe(true);
+      });
+  })
