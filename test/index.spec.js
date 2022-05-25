@@ -9,8 +9,22 @@ const {
   const {
     getPropertiesOfObject,
   } = require("../methods");
+  const {
+    getStatsUniqueBroken,
+  } = require("../utils");
 
-
+  jest.mock("chalk", () => ({
+    green: jest.fn(( ) => "green") ,
+    yellow:jest.fn(( ) => "yellow"),
+    red: jest.fn(( ) => "red"),
+    yellowBright: jest.fn(( ) => "yellowBright"),
+    blue: jest.fn(( ) => "blue"),
+    bgRed: jest.fn(( ) => "bgRed"),
+    bold: {
+      redBright: jest.fn(( ) => "redBright") ,
+      magenta:jest.fn(( ) => "magenta") ,
+  }
+  }));
 describe("mdLinks", () => {
   it("G", () => {
     const route = "./examples/folder/directory1/readme6.md"
@@ -55,16 +69,15 @@ describe("mdLinks", () => {
     )
 
   })
-
 });
 
 describe("cliFunction", () => {
-  it("oh", () => {
+  it("return a message if the option is not valid", () => {
     const route = "./examples/folder/directory1/readme6.md"
     const option = ["--sta", undefined]
     expect(cliFunction(route, option)).toBe("Sorry, this option does not exist.");
   });
-  it("oh", () => {
+  it("return a message if the route is not valid", () => {
     const route = "./examples/folder/directory1/readme"
     const option = ["--stats", undefined]
     expect(cliFunction(route, option)).toBe("Sorry, this route does not exist.");

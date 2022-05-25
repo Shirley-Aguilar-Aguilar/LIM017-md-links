@@ -2,121 +2,69 @@
 
 const {
     printObject,
-    printObjectFalse,
-    printObjectStats,
     printStatAndValidate,
   } = require("../utils");
-  const chalk = require("chalk");
 
+  jest.mock("chalk", () => ({
+    green: jest.fn(( ) => "green") ,
+    yellow:jest.fn(( ) => "yellow"),
+    red: jest.fn(( ) => "red"),
+    yellowBright: jest.fn(( ) => "yellowBright"),
+    blue: jest.fn(( ) => "blue"),
+    bgRed: jest.fn(( ) => "bgRed"),
+    bold: {
+      redBright: jest.fn(( ) => "redBright") ,
+      magenta:jest.fn(( ) => "magenta") ,
+  }
+  }));
 
   describe("printObject", () => {
     it("Return a number of status code", () => {
         const arrayObject = [
             {
-              file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
+              file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md\n',
               href: 'https://docs.npmjs.com/cli/install/shirley',
               text: 'docs oficiales de npm install acá más de 50 line',
               statusCode: 404,
               status: 'Fail'
             },
           ];
-          const result = `*File:${chalk.green("C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md")} Href:${chalk.yellow("https://docs.npmjs.com/cli/install/shirley")} Text:${chalk.blue("docs oficiales de npm install acá más de 50 line")} Status:${chalk.bold.redBright("Fail")} StatusCode:${chalk.yellowBright(404)}\n`;
-          expect(printObject(arrayObject)).toStrictEqual(result);
+          const result = `*File:green Href:yellow Text:blue Status:redBright StatusCode:yellowBright\n`;
+          expect(printObject(arrayObject)).toBe(result);
       });
       it("Return a number of status code", () => {
         const arrayObject = [
           {
             file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
             href: 'https://github.com/Laboratoria/course-parser',
-            text: '`course-parser`',
+            text: 'course-parser',
             statusCode: 301,
             status: 'Ok'
           }
           ];
-          const result = `*File:${chalk.green("C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md")} Href:${chalk.yellow("https://github.com/Laboratoria/course-parser")} Text:${chalk.blue("`course-parser`")} Status:${chalk.bold.magenta("Ok")} StatusCode:${chalk.yellowBright(301)}\n`;
-          expect(printObject(arrayObject)).toStrictEqual(result);
+          const result = `*File:green Href:yellow Text:blue Status:magenta StatusCode:yellowBright\n`;
+          expect(printObject(arrayObject)).toBe(result);
       });
   });
 
-/*   describe("printStatAndValidate", () => {
-    it("Return a number of status code", () => {
-        const arrayObject = [
-            {
-              file: "C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
-              href: "https://docs.npmjs.com/cli/install/shirley",
-              text: "docs oficiales de npm install acá más de 50 line",
-              statusCode: 404,
-              status: "Fail"
-            },
-          ];
-        const properties = [`
-    --------------------
-       ${chalk.bgRed('**Total   ')} : ${chalk.yellowBright(1)} 
-       ${chalk.bgRed('**Unique  ')} : ${ chalk.yellowBright(1)}
-       ${chalk.bgRed('**Broquen ')} : ${ chalk.yellowBright(1)}
-    --------------------
-        `];
-          expect(printStatAndValidate(arrayObject)).toStrictEqual(properties.join(""));
-      });
-  }) */
-
-
-
-/*   describe("printObject", () => {
-    it("Return a number of status code", () => {
-        const arrayObject = [
-            {
-              file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
-              href: 'https://docs.npmjs.com/cli/install/shirley',
-              text: 'docs oficiales de npm install acá más de 50 line',
-              statusCode: 404,
-              status: 'Fail'
-            },
-          ];
-          const result = `*File:C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md Href:https://docs.npmjs.com/cli/install/shirley Text:docs oficiales de npm install acá más de 50 line Status:${"Fail"} StatusCode:${404}`;
-          expect(printObject(arrayObject)).toEqual(result);
-      });
-  })
-
-  describe("printObjectFalse", () => {
-    it("Return a number of status code", () => {
-        const arrayObject = [
-            {
-              file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
-              href: 'https://docs.npmjs.com/cli/install/shirley',
-              text: 'docs oficiales de `npm install` acá más de 50 line',
-              statusCode: 404,
-              status: 'Fail'
-            },
-          ];
-          expect(printObjectFalse(arrayObject)).toBe(true);
-      });
-  })
-
-
-  describe("printObjectStats", () => {
-    it("Return a number of status code", () => {
-        const arrayObject = [
-            {
-              file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
-              href: 'https://docs.npmjs.com/cli/install/shirley',
-              text: 'docs oficiales de `npm install` acá más de 50 line',
-            },
-          ];
-          expect(printObjectStats(arrayObject)).toBe(true);
-      });
-  })
-
   describe("printStatAndValidate", () => {
-    it("Return a number of status code", () => {
-        const arrayObject = [
-            {
-              Total: 1,
-              Unique: 1,
-              Broquen: 1,
-            },
-          ];
-          expect(printStatAndValidate(arrayObject)).toBe(true);
-      });
+    it("hhh", () => {
+      const arrayObject = [
+        {
+          file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
+          href: 'https://github.com/Laboratoria/course-parser',
+          text: 'course-parser',
+          statusCode: 301,
+          status: 'Ok'
+        }
+        ];
+        const result = `
+    --------------------
+       bgRed : yellowBright 
+       bgRed : yellowBright
+       bgRed : yellowBright
+    --------------------
+    `;
+        expect(printStatAndValidate(arrayObject)).toBe(result);
+    })
   })
- */

@@ -25,9 +25,6 @@ const mdLinks = (route, options) => new Promise((resolve) => {
     getPropertiesOfObject(route, options) // array de objetos
       .then((arrayObject) => {
         resolve(arrayObject);
-      })
-      .catch((error) => {
-          console.error(error);
       });
 });
 
@@ -58,7 +55,7 @@ const cliFunction = (route, option) =>  {
   const newRoutes = validateRoute(route);
   // const validateTrueOrFalse = option.includes('--validate')
   if (newOptions === "inexistente") {
-    console.log(chalk.red("Sorry, this option does not exist."));
+    // console.log(chalk.red("Sorry, this option does not exist."));
     return "Sorry, this option does not exist.";
   // reject(console.error(chalk.red("Sorry, this option does not exist.")));
   } else if (newRoutes === "inexistente") {
@@ -87,12 +84,8 @@ const cliFunction = (route, option) =>  {
           console.log(result);
         }
       }
-    })
-    .catch((error) => {
-      console.log("error")
-    console.log(error)
-    })
-    return "route processed"
+    });
+    return "route processed";
   }
 }
 
