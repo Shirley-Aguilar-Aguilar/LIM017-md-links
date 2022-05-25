@@ -59,9 +59,11 @@ const cliFunction = (route, option) =>  {
   // const validateTrueOrFalse = option.includes('--validate')
   if (newOptions === "inexistente") {
     console.log(chalk.red("Sorry, this option does not exist."));
+    return "Sorry, this option does not exist.";
   // reject(console.error(chalk.red("Sorry, this option does not exist.")));
   } else if (newRoutes === "inexistente") {
     console.log(chalk.red("Sorry, this route does not exist."));
+    return "Sorry, this route does not exist.";
    // reject(console.error(chalk.red("Sorry, this route does not exist.")))
   } else {
     mdLinks(route, { validate : option.includes('--validate')})
@@ -69,24 +71,20 @@ const cliFunction = (route, option) =>  {
       if (option[0] === undefined) {
         const result = printObjectFalse(arrayObject);
         console.log(result);
-        return result;
       } else if (option[1] === undefined) {
         if (option[0] === "--validate") {
           const result = printObject(arrayObject);
           console.log(result);
-          return result;
           
         } else if (option.includes("--stats")) {
           const result = printObjectStats(arrayObject);
           console.log(result);
-          return result;
         }
       } else {
         if (option.includes("--stats") && option.includes("--validate")) {
           const arrayObjectStats = getStatsUniqueBroken(arrayObject);
           const result = printStatAndValidate(arrayObjectStats);
           console.log(result);
-          return result;
         }
       }
     })
@@ -94,20 +92,18 @@ const cliFunction = (route, option) =>  {
       console.log("error")
     console.log(error)
     })
+    return "route processed"
   }
 }
 
 cliFunction(routeUser, inputUser);
 
 
-
-
-
 module.exports = {
   mdLinks,
   validateRoute,
+  getExistOption,
   cliFunction,
-
 };
 
 

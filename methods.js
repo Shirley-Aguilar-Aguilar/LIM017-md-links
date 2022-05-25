@@ -1,4 +1,4 @@
-const fs = require("node:fs"); //
+const fs = require("node:fs");
 const path = require("node:path");
 const http = require("node:http");
 const https = require("node:https");
@@ -6,19 +6,12 @@ const url = require("node:url");
 const pathToAbsolute = (paths) => path.resolve(paths);
 const itsDirectory = (route) => fs.statSync(route).isDirectory();
 const itsFile = (route) => fs.statSync(route).isFile();
-// const pathToRelative = (paths) => path.relative(paths);
-const readFile = (file) => fs.readFileSync(file, "utf-8");//
-const readDirectory = (directory) => fs.readdirSync(directory); // array
+const readFile = (file) => fs.readFileSync(file, "utf-8");
+const readDirectory = (directory) => fs.readdirSync(directory);
 const verifyMdFile = (file) => path.extname(file) === ".md";
-// const readLinks = (route) => fs.readlinkSync(route, "utf-8");
 const httpOptions = (link) => url.urlToHttpOptions(link);
 const getStatusHttps = https.get;
 const getStatusHttp = http.get;
-
-const {
-} = require("./index.js")
-
-
 
 const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
     if (itsDirectory(pathAbs)) {
@@ -68,12 +61,10 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
     const optionsLink = httpOptions(linkNew);
     if (optionsLink.protocol === "https:") {
       getStatusHttps(link, (res) => {
-        // console.log("statusCode:", res.statusCode);
         resolve(res.statusCode);
       });
     } else if (optionsLink.protocol === "http:") {
       getStatusHttp(link, (res) => {
-        // console.log("statusCode:", res.statusCode);
         resolve(res.statusCode);
       });
     }
@@ -97,10 +88,9 @@ const getPropertiesOfObject = (route, optionTrueFalse) => new Promise ((resolve)
     const arrayOfFiles = [];
     const arrayOfFilesMd = searchFilesOrDirectory(ABSOLUTE_PATH, arrayOfFiles);
     const arrayLinksObject = getTextFileHref(arrayOfFilesMd);
-   if(optionTrueFalse.validate = true) {
+   if(optionTrueFalse.validate === true) {
        const array = [];
     arrayLinksObject.forEach((objectOnly) => {
-      // console.log(objectOnly.href)
         getStatusCode(objectOnly.href)
           .then((n) => {
             // eslint-disable-next-line no-param-reassign
@@ -128,6 +118,7 @@ const getLinks = (arrayObject) => {
   let countUnique = 0;
   const arrayUnique = []
   const res = arrayLinks.reduce((acc,link) => {
+    acc = arrayUnique;
    if(!arrayUnique.includes(link)){
     arrayUnique.push(link);
    }
@@ -143,10 +134,9 @@ const getStatsUniqueBroken = (arrayObject) => {
   const linksUnique = getLinks(arrayObject);
   arrayObject.forEach((onlyObject) => {
     countTotal+= 1;
-    if(onlyObject.status === "Fail"){
+    if(onlyObject.status === "Fail") {
       countBroquen+=1;
-    }
-    
+    };
   })
   allStats.push({
     total:countTotal,
