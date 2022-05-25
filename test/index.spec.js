@@ -1,45 +1,142 @@
+// jest.mock('../utils.js')
 const {
     mdLinks,
     validateRoute,
-    getTrueOrFalse,
+    getExistOption,
+    cliFunction,
   } = require("../index");
 
   const {
     getPropertiesOfObject,
   } = require("../methods");
+  const {
+    getStatsUniqueBroken,
+  } = require("../utils");
 
-  describe("getTrueOrFalse", () => {
-    it("Return a number of status code", () => {
+  jest.mock("chalk", () => ({
+    green: jest.fn(( ) => "green") ,
+    yellow:jest.fn(( ) => "yellow"),
+    red: jest.fn(( ) => "red"),
+    yellowBright: jest.fn(( ) => "yellowBright"),
+    blue: jest.fn(( ) => "blue"),
+    bgRed: jest.fn(( ) => "bgRed"),
+    bold: {
+      redBright: jest.fn(( ) => "redBright") ,
+      magenta:jest.fn(( ) => "magenta") ,
+  }
+  }));
+describe("mdLinks", () => {
+  it("G", () => {
+    const route = "./examples/folder/directory1/readme6.md"
+    const option = { validate : true};
+    const result = [
+      {
+        file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
+        href: 'https://docs.npmjs.com/cli/install/shirley',
+        text: 'docs oficiales de npm install (más de 50 caractere',
+        statusCode: 404,
+        status: 'Fail'
+      },
+      {
+        file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
+        href: 'https://github.com/Laboratoria/course-parser',
+        text: '`course-parser`',
+        statusCode: 301,
+        status: 'Ok'
+      }
+    ];
+   mdLinks(route, option).then((arrayObject) =>
+   expect(arrayObject).toEqual(result)
+   )
+  })
+  it("G", () => {
+    const route = "./examples/folder/directory1/readme6.md"
+    const option = { validate : false}
+    const result = [
+      {
+        file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
+        href: 'https://docs.npmjs.com/cli/install/shirley',
+        text: 'docs oficiales de npm install (más de 50 caractere',
+      },
+      {
+        file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
+        href: 'https://github.com/Laboratoria/course-parser',
+        text: '`course-parser`',
+      }
+    ];
+    mdLinks(route, option).then((arrayObject) =>
+    expect(arrayObject).toEqual(result)
+    )
+
+  })
+});
+
+describe("cliFunction", () => {
+  it("return a message if the option is not valid", () => {
+    const route = "./examples/folder/directory1/readme6.md"
+    const option = ["--sta", undefined]
+    expect(cliFunction(route, option)).toBe("Sorry, this option does not exist.");
+  });
+  it("return a message if the route is not valid", () => {
+    const route = "./examples/folder/directory1/readme"
+    const option = ["--stats", undefined]
+    expect(cliFunction(route, option)).toBe("Sorry, this route does not exist.");
+  });
+  it("oh2", () => {
+    const route = "./examples/folder/directory1/readme6.md";
+    const option = [undefined];
+    expect(cliFunction(route, option)).toBe("route processed");
+  })
+  it("oh2", () => {
+    const route = "./examples/folder/directory1/readme6.md";
+    const option = ["--stats", undefined];
+    expect(cliFunction(route, option)).toBe("route processed");
+  })
+  it("oh2", () => {
+    const route = "./examples/folder/directory1/readme6.md";
+    const option = ["--validate", undefined];
+    expect(cliFunction(route, option)).toBe("route processed");
+  })
+  it("oh2", () => {
+    const route = "./examples/folder/directory1/readme6.md";
+    const option = ["--validate", "--stats"];
+    expect(cliFunction(route, option)).toBe("route processed");
+  })
+  it("oh2", () => {
+    const route = "./examples/folder/directory1/readme6.md";
+    const option = ["--validate", undefined];
+    expect(cliFunction(route, option)).toBe("route processed");
+  })
+})
+
+describe("getExistOption", () => {
+    it("Return a booleano true if comand exist", () => {
         const input = ["--validate", undefined];
-          expect(getTrueOrFalse(input)).toBe(true);
+          expect(getExistOption(input)).toBe(true);
       });
-      it("Return a number of status code", () => {
+      it("Return a booleano true if comand exist", () => {
         const input = ["--validate", "--stats" ];
-          expect(getTrueOrFalse(input)).toBe(true);
-      });
-      it("Return a number of status code", () => {
-        const input = ["{validate:true}"];
-          expect(getTrueOrFalse(input)).toBe(true);
-      });
-      it("Return a number of status code", () => {
+          expect(getExistOption(input)).toBe(true);
+      })
+      it("Return a booleano false if comand exist", () => {
         const input = ["--stats", undefined];
-          expect(getTrueOrFalse(input)).toBe(false);
+          expect(getExistOption(input)).toBe(false);
       });
-      it("Return a number of status code", () => {
+      it("Return a booleano false if comand exist", () => {
         const input = [undefined];
-          expect(getTrueOrFalse(input)).toBe(false);
+          expect(getExistOption(input)).toBe(false);
       });
-      it("Return a number of status code", () => {
+      it("Return inexistente if comand is not exist", () => {
         const input = ["-stat",undefined];
-          expect(getTrueOrFalse(input)).toBe("inexistente");
+          expect(getExistOption(input)).toBe("inexistente");
       });
-      it("Return a number of status code", () => {
+      it("Return inexistente if comand is not exist", () => {
         const input = ["-cmdno", "noexist"];
-          expect(getTrueOrFalse(input)).toBe("inexistente");
+          expect(getExistOption(input)).toBe("inexistente");
       });
   })
 
-describe("mdLinks", () => {
+/* describe("mdLinks", () => {
     it("fff", () => {
         const route = "./examples/folder/directory1/readme6.md";
         const option = true;
@@ -111,3 +208,5 @@ describe("mdLinks", () => {
         const input = ["--validate", "--stats" ]
     expect( mdLinks(route, option, input)).reject.toEqual(console.error("Sorry, this route does not exist."));
 });
+});
+ */

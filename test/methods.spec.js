@@ -7,11 +7,11 @@ const {
 
 
 describe("searchFilesOrDirectory", () => {
-  it("función retorna en un array el archivo", () => {
+  it("if pathUser is a file return a file markdown", () => {
     const pathUser = "C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\readme1.md";
     expect(searchFilesOrDirectory(pathUser, [])).toEqual(["C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\readme1.md"]);
   });
-  it("función retorna un array de una carpeta", () => {
+  it("if pathUSer is a folder return a array's file markdown", () => {
     const pathUser = "C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples";
     expect(searchFilesOrDirectory(pathUser, [])[0]).toBe("C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples/folder/directory1/readme5.md");
   });
@@ -25,7 +25,7 @@ describe("searchFilesOrDirectory", () => {
         expect(getTextFileHref(arrayFiles)).toEqual([{
         file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder/directory1/readme6.md',
         href: 'https://docs.npmjs.com/cli/install/shirley',
-        text: 'docs oficiales de `npm install` acá más de 50 line'},
+        text: 'docs oficiales de npm install (más de 50 caractere'},
         {
         file: "C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder/directory1/readme6.md",  
         href: "https://github.com/Laboratoria/course-parser",
@@ -70,28 +70,28 @@ describe("searchFilesOrDirectory", () => {
   describe("getPropertiesOfObject", () => {
      it("Return a resolve with objects's array  with file,href and text when option is false", () => {
     const route = "./examples/folder/directory1/readme6.md";
-    const optionTrueFalse = false;
+    const optionTrueFalse = { validate: false };
     return expect(getPropertiesOfObject(route, optionTrueFalse)).resolves.toEqual([
       {
         file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
         href: 'https://docs.npmjs.com/cli/install/shirley',
-        text: 'docs oficiales de `npm install` acá más de 50 line'
+        text: 'docs oficiales de npm install (más de 50 caractere',
       },
       {
         file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
         href: 'https://github.com/Laboratoria/course-parser',
-        text: '`course-parser`'
+        text: '`course-parser`',
       }
     ]);
     });
     it("Return a resolve with objects's array  with file,href and text whwn option is true", () => {
       const route = "./examples/folder/directory1/readme6.md";
-      const optionTrueFalse = true;
+      const optionTrueFalse = { validate: true };
       return expect(getPropertiesOfObject(route, optionTrueFalse)).resolves.toEqual([
         {
           file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
           href: 'https://docs.npmjs.com/cli/install/shirley',
-          text: 'docs oficiales de `npm install` acá más de 50 line',
+          text: 'docs oficiales de npm install (más de 50 caractere',
           statusCode: 404,
           status: 'Fail'
         },

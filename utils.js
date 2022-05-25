@@ -65,5 +65,4 @@ module.exports = {
     printObjectStats,
     printStatAndValidate,
     printObjectFalse,
-    printStatAndValidate,
 };
