@@ -15,7 +15,7 @@
   "scripts": {
     "eslint": "eslint --ext .js test/",
     "pretest.off": "npm run eslint",
-    "test": "jest --coverage",
+    "test": "jest --verbose --coverage",
     "lint-fix": "eslint . --ext .js --fix"
   },
   "repository": {
@@ -25,7 +25,8 @@
   "keywords": [
     "links",
     "markdown",
-    "link broken"
+    "link broken",
+    "md-links"
   ],
   "author": "Shirley B Aguilar Aguilar <shirley.aguilar.agui@gmail.com>",
   "license": "MIT",
@@ -34,7 +35,7 @@
   },
   "homepage": "https://github.com/Shirley-Aguilar-Aguilar/LIM017-md-links#readme",
   "bin": {
-    "md-links": "index.js"
+    "md-links": "./src/index.js"
   },
   "dependencies": {
     "chalk": "^4.1.2",

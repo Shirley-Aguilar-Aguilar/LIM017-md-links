@@ -4,14 +4,14 @@ const {
     validateRoute,
     getExistOption,
     cliFunction,
-  } = require("../index");
+  } = require("../src/index");
 
   const {
     getPropertiesOfObject,
-  } = require("../methods");
+  } = require("../src/methods");
   const {
     getStatsUniqueBroken,
-  } = require("../utils");
+  } = require("../src/utils");
 
   jest.mock("chalk", () => ({
     green: jest.fn(( ) => "green") ,

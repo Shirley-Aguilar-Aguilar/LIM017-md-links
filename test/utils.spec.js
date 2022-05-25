@@ -3,7 +3,7 @@
 const {
     printObject,
     printStatAndValidate,
-  } = require("../utils");
+  } = require("../src/utils");
 
   jest.mock("chalk", () => ({
     green: jest.fn(( ) => "green") ,
