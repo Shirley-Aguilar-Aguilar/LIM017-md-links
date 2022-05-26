@@ -15,14 +15,14 @@ const {
     bold: {
       redBright: jest.fn(( ) => "redBright") ,
       magenta:jest.fn(( ) => "magenta") ,
-  }
+    }
   }));
 
   describe("printObject", () => {
-    it("Return a number of status code", () => {
+    it("Return a text with properties and colors", () => {
         const arrayObject = [
             {
-              file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md\n',
+              file: 'C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md\n',
               href: 'https://docs.npmjs.com/cli/install/shirley',
               text: 'docs oficiales de npm install acá más de 50 line',
               statusCode: 404,
@@ -32,10 +32,10 @@ const {
           const result = `*File:green Href:yellow Text:blue Status:redBright StatusCode:yellowBright\n`;
           expect(printObject(arrayObject)).toBe(result);
       });
-      it("Return a number of status code", () => {
+      it("Return a text with properties and colors", () => {
         const arrayObject = [
           {
-            file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
+            file: 'C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',
             href: 'https://github.com/Laboratoria/course-parser',
             text: 'course-parser',
             statusCode: 301,
@@ -48,7 +48,7 @@ const {
   });
 
   describe("printStatAndValidate", () => {
-    it("hhh", () => {
+    it("Return a text with properties and colors", () => {
       const arrayObject = [
         {
           file: 'C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md',

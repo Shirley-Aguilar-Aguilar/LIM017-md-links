@@ -60,13 +60,21 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
     const linkNew = new URL(link);
     const optionsLink = httpOptions(linkNew);
     if (optionsLink.protocol === "https:") {
-      getStatusHttps(link, (res) => {
+      const req = getStatusHttps(link, (res) => {
         resolve(res.statusCode);
       });
+       req.on('error', (e) => {
+         resolve(`problem with request: ${e.message} on the link (${link})`);
+       });
     } else if (optionsLink.protocol === "http:") {
-      getStatusHttp(link, (res) => {
+      const req = getStatusHttp(link, (res) => {
         resolve(res.statusCode);
       });
+      req.on('error', (e) => {
+        resolve(`problem with request: ${e.message} on the link(${link})`);
+      });
+    } else {
+      resolve(`problem with request: this protocol's link ${link} is not http or https`);
     }
   });
 
@@ -134,9 +142,7 @@ const getStatsUniqueBroken = (arrayObject) => {
   const linksUnique = getLinks(arrayObject);
   arrayObject.forEach((onlyObject) => {
     countTotal+= 1;
-    if(onlyObject.status === "Fail") {
-      countBroquen+=1;
-    };
+    (onlyObject.status === "Fail")? countBroquen+=1 : countBroquen+=0;
   })
   allStats.push({
     total:countTotal,
