@@ -4,7 +4,7 @@ const fs = require("node:fs");
 const chalk = require("chalk");
 
 const inputUser = process.argv.slice(3);
-const routeUser = process.argv[2]
+const routeUser = process.argv[2];
 const existRoute = (route) => fs.existsSync(route);
 const {
   getPropertiesOfObject,

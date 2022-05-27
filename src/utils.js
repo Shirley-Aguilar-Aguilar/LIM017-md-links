@@ -11,7 +11,7 @@ const printObject = (arrayObject) => new Promise((resolve) => {
     const text = chalk.blue(propertiesObject.text);
     // eslint-disable-next-line prefer-destructuring
     const status = propertiesObject.status;
-    const color = (propertiesObject.status === "Fail") ? chalk.bold.redBright(status) : chalk.bold.magenta(status)
+    const color = (propertiesObject.status === "Fail") ? chalk.bold.redBright(status) : chalk.bold.magenta(status);
     const properties = `*File:${file} Href:${link} Text:${text} Status:${color} StatusCode:${number}\n`;
     return properties;
   });

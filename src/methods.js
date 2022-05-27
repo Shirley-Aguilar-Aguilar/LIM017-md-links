@@ -19,7 +19,7 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
   if (itsDirectory(pathAbs)) {
     const content = readDirectory(pathAbs);
     content.forEach((fileOrDir) => {
-      const newPath = `${pathAbs}/${fileOrDir}`;
+      const newPath = `${pathAbs}\\${fileOrDir}`;
       if ((itsFile(newPath)) && (verifyMdFile(newPath))) {
         allArrayFilesMd.push(newPath);
       } else {
@@ -45,7 +45,7 @@ const getTextFileHref = (arrayFiles) => {
         const text = singleMatch.exec(matches[i]);
         let newText = text[1];
         if (text[1].length > 50) {
-          newText = text[1].slice(0,50);
+          newText = text[1].slice(0, 50);
         }
         arrayLinksObjects.push({
           file: files,

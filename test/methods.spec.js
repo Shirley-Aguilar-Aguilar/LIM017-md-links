@@ -49,9 +49,9 @@ describe("getTextFileHref", () => {
 describe("getStatusCode", () => {
   it("Return a number of status code", () => {
     const link = "https://es.wikipedia.org/wiki/Markdown";
-    getStatusCode(link).then((n) =>{
+    getStatusCode(link).then((n) => {
       expect(n).toBe(200);
-    })
+    });
   });
   it("Return status code (https's protocol)", () => {
     const link = "https://es.wikipedia.org/wiki/Markdown";
@@ -135,13 +135,13 @@ describe("getStatsUniqueBroken", () => {
       file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/directory1/readme6.md",
       href: "https://docs.npmjs.com/cli/install/shirley",
       text: "docs oficiales de `npm install` acá",
-      status: "Fail"
+      status: "Fail",
     }, {
       file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
       href: "https://github.com/Laboratoria/course-parser",
       text: "`course-parser`",
       statusCode: 301,
-      status: "Ok"
+      status: "Ok",
     }];
     expect(getStatsUniqueBroken(arrayObject)).toEqual([{ Unique: 2, total: 2, Broquen: 1 }]);
   });
@@ -152,7 +152,7 @@ describe("getStatsUnique", () => {
     const arrayObject = [{
       file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/readme4.md",
       href: "https://developers.google.com/v8/",
-      text: "motor de JavaScript V8 de Chrome"
+      text: "motor de JavaScript V8 de Chrome",
     }];
     expect(getStatsUnique(arrayObject)).toEqual([{ Unique: 1, total: 1 }]);
   });
