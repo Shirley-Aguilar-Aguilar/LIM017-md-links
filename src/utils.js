@@ -3,7 +3,7 @@ const {
   getStatsUnique,
 } = require("./methods");
 
-const printObject = (arrayObject) => {
+const printObject = (arrayObject) => new Promise((resolve) => {
   const options = arrayObject.map((propertiesObject) => {
     const file = chalk.green(propertiesObject.file);
     const link = chalk.yellow(propertiesObject.href);
@@ -15,21 +15,21 @@ const printObject = (arrayObject) => {
     const properties = `*File:${file} Href:${link} Text:${text} Status:${color} StatusCode:${number}\n`;
     return properties;
   });
-  return options.join("");
-};
+  resolve(options.join(""));
+});
 
-const printObjectFalse = (arrayObject) => {
+const printObjectFalse = (arrayObject) => new Promise((resolve) => {
   const options = arrayObject.map((propertiesObject) => {
     const file = chalk.green(propertiesObject.file);
     const link = chalk.yellow(propertiesObject.href);
-    const text = chalk.blue(propertiesObject.text)
+    const text = chalk.blue(propertiesObject.text);
     const properties = `*File:${file} Href:${link} Text:${text}\n`;
     return properties;
   });
-  return options.join("");
-};
+  resolve(options.join(""));
+});
 
-const printObjectStats = (arrayObject) => {
+const printObjectStats = (arrayObject) => new Promise((resolve) => {
   const stats = getStatsUnique(arrayObject);
   const options = stats.map((stat) => {
     const properties = `
@@ -40,22 +40,22 @@ const printObjectStats = (arrayObject) => {
   `;
     return properties;
   });
-  return options.join("");
-};
+  resolve(options.join(""));
+});
 
-const printStatAndValidate = (arrayObjectStats) => {
+const printStatAndValidate = (arrayObjectStats) => new Promise((resolve) => {
   const options = arrayObjectStats.map((stat) => {
     const properties = `
     --------------------
        ${chalk.bgRed("**Total   ")} : ${chalk.yellowBright(stat.total)} 
        ${chalk.bgRed("**Unique  ")} : ${chalk.yellowBright(stat.Unique)}
-       ${chalk.bgRed("**Broquen ")} : ${chalk.yellowBright(stat.Broquen)}
+       ${chalk.bgRed("**Broken  ")} : ${chalk.yellowBright(stat.Broquen)}
     --------------------
     `;
     return properties;
   });
-  return options.join("");
-};
+  resolve(options.join(""));
+});
 
 module.exports = {
   printObject,

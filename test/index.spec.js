@@ -17,10 +17,11 @@ jest.mock("chalk", () => ({
     magenta: jest.fn(() => "magenta"),
   },
 }));
+
 describe("mdLinks", () => {
   it("Return a array object (href,text,file,statusCode, status)", () => {
     const route = "./examples/folder/directory1/readme6.md";
-    const option = { validate: true};
+    const validate = ["--validate", "--stats"];
     const result = [{
       file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
       href: "https://docs.npmjs.com/cli/install/shirley",
@@ -34,12 +35,12 @@ describe("mdLinks", () => {
       statusCode: 301,
       status: "Ok",
     }];
-    mdLinks(route, option).then((arrayObject) => {
+    mdLinks(route, { validate: validate.includes("--validate") }).then((arrayObject) => {
       expect(arrayObject).toEqual(result);
     });
   });
   it("Return a array object (href,text,file)", () => {
-    const route = "./examples/folder/directory1/readme6.md"
+    const route = "./examples/folder/directory1/readme6.md";
     const option = { validate: false };
     const result = [{
       file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",

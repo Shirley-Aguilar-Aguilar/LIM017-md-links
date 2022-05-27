@@ -47,7 +47,7 @@ const getExistOption = (input) => {
   return result;
 };
 
-const cliFunction = (route, option) =>  {
+const cliFunction = (route, option) => {
   const newOptions = getExistOption(option);
   const newRoutes = validateRoute(route);
   if (newOptions === "inexistente") {
@@ -60,24 +60,20 @@ const cliFunction = (route, option) =>  {
   mdLinks(route, { validate: option.includes("--validate")})
     .then((arrayObject) => {
       if (option[0] === undefined) {
-        const result = printObjectFalse(arrayObject);
-        console.log(result);
+        printObjectFalse(arrayObject).then((n) => console.log(n));
       } else if (option[1] === undefined) {
         if (option[0] === "--validate") {
-          const result = printObject(arrayObject);
-          console.log(result);
+          printObject(arrayObject).then((n) => console.log(n));
         } else if (option.includes("--stats")) {
-          const result = printObjectStats(arrayObject);
-          console.log(result);
+          printObjectStats(arrayObject).then((n) => console.log(n));
         }
       } else if (option.includes("--stats") && option.includes("--validate")) {
         const arrayObjectStats = getStatsUniqueBroken(arrayObject);
-        const result = printStatAndValidate(arrayObjectStats);
-        console.log(result);
+        printStatAndValidate(arrayObjectStats).then((n) => console.log(n));
       }
     });
   return "route processed";
-}
+};
 
 cliFunction(routeUser, inputUser);
 

@@ -26,7 +26,7 @@ describe("printObject", () => {
     },
     ];
     const result = "*File:green Href:yellow Text:blue Status:redBright StatusCode:yellowBright\n";
-    expect(printObject(arrayObject)).toBe(result);
+    expect(printObject(arrayObject)).resolves.toEqual(result);
   });
   it("Return a text with properties and colors", () => {
     const arrayObject = [{
@@ -37,7 +37,7 @@ describe("printObject", () => {
       status: "Ok",
     }];
     const result = "*File:green Href:yellow Text:blue Status:magenta StatusCode:yellowBright\n";
-    expect(printObject(arrayObject)).toBe(result);
+    expect(printObject(arrayObject)).resolves.toBe(result);
   });
 });
 describe("printStatAndValidate", () => {
@@ -57,6 +57,6 @@ describe("printStatAndValidate", () => {
        bgRed : yellowBright
     --------------------
     `;
-    expect(printStatAndValidate(arrayObject)).toBe(result);
+    expect(printStatAndValidate(arrayObject)).resolves.toEqual(result);
   });
 });
