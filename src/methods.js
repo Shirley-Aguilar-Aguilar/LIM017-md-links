@@ -33,7 +33,9 @@ const searchFilesOrDirectory = (pathAbs, allArrayFilesMd) => {
 };
 
 const getTextFileHref = (arrayFiles) => {
+  // eslint-disable-next-line no-useless-escape
   const regexMdLinks = /\[([^\[]+)\](\(.*\))/gm;
+  // eslint-disable-next-line no-useless-escape
   const singleMatch = /\[([^\[]+)\]\((.*)\)/;
   const arrayLinksObjects = [];
   arrayFiles.forEach((files) => {

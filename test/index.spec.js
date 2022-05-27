@@ -1,4 +1,3 @@
-// jest.mock('../utils.js')
 const {
   mdLinks,
   getExistOption,
@@ -58,40 +57,53 @@ describe("mdLinks", () => {
 });
 
 describe("cliFunction", () => {
-  it("Return a message if the option is not valid", () => {
+  it("Promise rejects a red message", () => {
     const route = "./examples/folder/directory1/readme6.md";
     const option = ["--sta", undefined];
-    expect(cliFunction(route, option)).toBe("Sorry, this option does not exist.");
+    expect(cliFunction(route, option)).rejects.toEqual("red");
   });
-  it("Return a message if the route is not valid", () => {
-    const route = "./examples/folder/directory1/readme";
+  it("Promise resolves a string with data", () => {
+    const route = "./examples/folder/directory1/readme6.md";
     const option = ["--stats", undefined];
-    expect(cliFunction(route, option)).toBe("Sorry, this route does not exist.");
+    const result = `
+  --------------------
+    bgRed : yellowBright 
+    bgRed : yellowBright
+  --------------------
+  `;
+    expect(cliFunction(route, option)).resolves.toEqual(result);
   });
-  it("Return route processed if stats were displayed", () => {
+  it("Promise resolves a string with data", () => {
     const route = "./examples/folder/directory1/readme6.md";
     const option = [undefined];
-    expect(cliFunction(route, option)).toBe("route processed");
+    const result = "*File:green Href:yellow Text:blue\n*File:green Href:yellow Text:blue\n";
+    expect(cliFunction(route, option)).resolves.toBe(result);
   });
-  it("Return route processed if stats were displayed", () => {
+  it("Promise not resolves this string with data", () => {
     const route = "./examples/folder/directory1/readme6.md";
-    const option = ["--stats", undefined];
-    expect(cliFunction(route, option)).toBe("route processed");
+    const option = ["--stats", "--validate"];
+    const result = `
+    --------------------
+       bgRed : yellowBright 
+       bgRed : yellowBright
+    --------------------
+    `;
+    cliFunction(route, option).then((n) => {
+      expect(n).not.toBe(result);
+    });
   });
-  it("Return route processed if stats were displayed", () => {
+  it("Promise not resolves this string with data", () => {
     const route = "./examples/folder/directory1/readme6.md";
     const option = ["--validate", undefined];
-    expect(cliFunction(route, option)).toBe("route processed");
-  });
-  it("Return route processed if stats were displayed", () => {
-    const route = "./examples/folder/directory1/readme6.md";
-    const option = ["--validate", "--stats"];
-    expect(cliFunction(route, option)).toBe("route processed");
-  });
-  it("Return route processed if stats were displayed", () => {
-    const route = "./examples/folder/directory1/readme6.md";
-    const option = ["--validate", undefined];
-    expect(cliFunction(route, option)).toBe("route processed");
+    const result = `
+    --------------------
+       bgRed : yellowBright 
+       bgRed : yellowBright
+    --------------------
+    `;
+    cliFunction(route, option).then((n) => {
+      expect(n).not.toBe(result);
+    });
   });
 });
 

@@ -1,6 +1,8 @@
 const {
   printObject,
   printStatAndValidate,
+  printObjectFalse,
+  printObjectStats,
 } = require("../src/utils");
 
 jest.mock("chalk", () => ({
@@ -26,7 +28,7 @@ describe("printObject", () => {
     },
     ];
     const result = "*File:green Href:yellow Text:blue Status:redBright StatusCode:yellowBright\n";
-    expect(printObject(arrayObject)).resolves.toEqual(result);
+    expect(printObject(arrayObject)).toBe(result);
   });
   it("Return a text with properties and colors", () => {
     const arrayObject = [{
@@ -37,7 +39,29 @@ describe("printObject", () => {
       status: "Ok",
     }];
     const result = "*File:green Href:yellow Text:blue Status:magenta StatusCode:yellowBright\n";
-    expect(printObject(arrayObject)).resolves.toBe(result);
+    expect(printObject(arrayObject)).toBe(result);
+  });
+});
+
+describe("printObjectFalse", () => {
+  it("Return a text with properties and colors", () => {
+    const arrayObject = [{
+      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md\n",
+      href: "https://docs.npmjs.com/cli/install/shirley",
+      text: "docs oficiales de npm install acá más de 50 line",
+    },
+    ];
+    const result = "*File:green Href:yellow Text:blue\n";
+    expect(printObjectFalse(arrayObject)).toBe(result);
+  });
+  it("Return a text with properties and colors", () => {
+    const arrayObject = [{
+      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
+      href: "https://github.com/Laboratoria/course-parser",
+      text: "course-parser",
+    }];
+    const result = "*File:green Href:yellow Text:blue\n";
+    expect(printObjectFalse(arrayObject)).toBe(result);
   });
 });
 describe("printStatAndValidate", () => {
@@ -57,6 +81,26 @@ describe("printStatAndValidate", () => {
        bgRed : yellowBright
     --------------------
     `;
-    expect(printStatAndValidate(arrayObject)).resolves.toEqual(result);
+    expect(printStatAndValidate(arrayObject)).toBe(result);
+  });
+});
+
+describe("printObjectStats", () => {
+  it("Return a text with properties and colors", () => {
+    const arrayObject = [
+      {
+        file: "C:\\Users\\ruben\\Desktop\\MD-LINKS\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
+        href: "https://github.com/Laboratoria/course-parser",
+        text: "course-parser",
+        statusCode: 301,
+        status: "Ok",
+      }];
+    const result = `
+  --------------------
+    bgRed : yellowBright 
+    bgRed : yellowBright
+  --------------------
+  `;
+    expect(printObjectStats(arrayObject)).toBe(result);
   });
 });

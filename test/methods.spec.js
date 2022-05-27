@@ -1,6 +1,6 @@
 const {
   getStatusCode,
-  getTextFileHref, searchFilesOrDirectory,getPropertiesOfObject,
+  getTextFileHref, searchFilesOrDirectory, getPropertiesOfObject,
   validityStatusCode, getLinks,
   getStatsUniqueBroken, getStatsUnique,
 } = require("../src/methods");
@@ -25,14 +25,14 @@ describe("searchFilesOrDirectory", () => {
   });
   it("if pathUSer is a folder return a array's file markdown", () => {
     const pathUser = "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples";
-    expect(searchFilesOrDirectory(pathUser, [])[0]).toBe("C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples/folder/directory1/readme5.md");
+    expect(searchFilesOrDirectory(pathUser, [])[0]).toBe("C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme5.md");
   });
 });
 
 describe("getTextFileHref", () => {
   it("Return an object array with file, href and text(text with less a 50 characters)", () => {
     const arrayFiles = [
-      "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/directory1/readme6.md"
+      "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/directory1/readme6.md",
     ];
     expect(getTextFileHref(arrayFiles)).toEqual([{
       file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/directory1/readme6.md",
@@ -123,8 +123,8 @@ describe("getLinks", () => {
   it("Return a number of unique link", () => {
     const arrayObject = [
       { href: "https://developers.google.com/v8/" },
-      { href: "https://developers.google.com/v8/" }, 
-      { href: "https://docs.npmjs.com/cli/install/"}];
+      { href: "https://developers.google.com/v8/" },
+      { href: "https://docs.npmjs.com/cli/install/" }];
     expect(getLinks(arrayObject)).toBe(2);
   });
 });

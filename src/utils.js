@@ -3,7 +3,7 @@ const {
   getStatsUnique,
 } = require("./methods");
 
-const printObject = (arrayObject) => new Promise((resolve) => {
+const printObject = (arrayObject) => {
   const options = arrayObject.map((propertiesObject) => {
     const file = chalk.green(propertiesObject.file);
     const link = chalk.yellow(propertiesObject.href);
@@ -15,10 +15,10 @@ const printObject = (arrayObject) => new Promise((resolve) => {
     const properties = `*File:${file} Href:${link} Text:${text} Status:${color} StatusCode:${number}\n`;
     return properties;
   });
-  resolve(options.join(""));
-});
+  return options.join("");
+};
 
-const printObjectFalse = (arrayObject) => new Promise((resolve) => {
+const printObjectFalse = (arrayObject) => {
   const options = arrayObject.map((propertiesObject) => {
     const file = chalk.green(propertiesObject.file);
     const link = chalk.yellow(propertiesObject.href);
@@ -26,10 +26,10 @@ const printObjectFalse = (arrayObject) => new Promise((resolve) => {
     const properties = `*File:${file} Href:${link} Text:${text}\n`;
     return properties;
   });
-  resolve(options.join(""));
-});
+  return options.join("");
+};
 
-const printObjectStats = (arrayObject) => new Promise((resolve) => {
+const printObjectStats = (arrayObject) => {
   const stats = getStatsUnique(arrayObject);
   const options = stats.map((stat) => {
     const properties = `
@@ -40,10 +40,10 @@ const printObjectStats = (arrayObject) => new Promise((resolve) => {
   `;
     return properties;
   });
-  resolve(options.join(""));
-});
+  return options.join("");
+};
 
-const printStatAndValidate = (arrayObjectStats) => new Promise((resolve) => {
+const printStatAndValidate = (arrayObjectStats) => {
   const options = arrayObjectStats.map((stat) => {
     const properties = `
     --------------------
@@ -54,8 +54,8 @@ const printStatAndValidate = (arrayObjectStats) => new Promise((resolve) => {
     `;
     return properties;
   });
-  resolve(options.join(""));
-});
+  return (options.join(""));
+};
 
 module.exports = {
   printObject,

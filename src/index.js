@@ -21,7 +21,7 @@ const {
 const validateRoute = (route) => existRoute(route) ? route : "inexistente";
 
 const mdLinks = (route, options) => new Promise((resolve) => {
-  getPropertiesOfObject(route, options) // array de objetos
+  getPropertiesOfObject(route, options)
     .then((arrayObject) => {
       resolve(arrayObject);
     });
@@ -47,35 +47,36 @@ const getExistOption = (input) => {
   return result;
 };
 
-const cliFunction = (route, option) => {
+const cliFunction = (route, option) => new Promise((resolve, reject) => {
   const newOptions = getExistOption(option);
   const newRoutes = validateRoute(route);
-  if (newOptions === "inexistente") {
-    console.log(chalk.red("Sorry, this option does not exist."));
-    return "Sorry, this option does not exist.";
-  } else if (newRoutes === "inexistente") {
-    console.log(chalk.red("Sorry, this route does not exist."));
-    return "Sorry, this route does not exist.";
+  if ((newOptions === "inexistente")) {
+    reject(chalk.red("Sorry, this option does not exist."));
+  } if (newRoutes === "inexistente") {
+    reject(chalk.red("Sorry, this route does not exist."));
   }
-  mdLinks(route, { validate: option.includes("--validate")})
+  mdLinks(route, { validate: option.includes("--validate") })
     .then((arrayObject) => {
       if (option[0] === undefined) {
-        printObjectFalse(arrayObject).then((n) => console.log(n));
+        resolve(printObjectFalse(arrayObject));
       } else if (option[1] === undefined) {
         if (option[0] === "--validate") {
-          printObject(arrayObject).then((n) => console.log(n));
+          resolve(printObject(arrayObject));
         } else if (option.includes("--stats")) {
-          printObjectStats(arrayObject).then((n) => console.log(n));
+          resolve(printObjectStats(arrayObject));
         }
       } else if (option.includes("--stats") && option.includes("--validate")) {
-        const arrayObjectStats = getStatsUniqueBroken(arrayObject);
-        printStatAndValidate(arrayObjectStats).then((n) => console.log(n));
+        const statsUniqueBroken = getStatsUniqueBroken(arrayObject);
+        resolve(printStatAndValidate(statsUniqueBroken));
       }
     });
-  return "route processed";
-};
+});
 
-cliFunction(routeUser, inputUser);
+cliFunction(routeUser, inputUser)
+  .then((n) => console.log(n))
+  .catch((error) => {
+    console.log(error);
+  });
 
 module.exports = {
   mdLinks,
