@@ -1,8 +1,8 @@
 {
-  "name": "lim017-md-links-sa",
+  "name": "md-links-sa",
   "version": "1.0.0",
   "description": "link analysis in markdown files ",
-  "main": "index.js",
+  "main": "src/index.js",
   "files": [
     "index.js",
     "utils.js",
@@ -35,7 +35,7 @@
   },
   "homepage": "https://github.com/Shirley-Aguilar-Aguilar/LIM017-md-links#readme",
   "bin": {
-    "md-links": "./src/index.js"
+    "md-links": "src/index.js"
   },
   "dependencies": {
     "chalk": "^4.1.2",
