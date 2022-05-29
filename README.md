@@ -19,12 +19,9 @@
    Install as a development dependency in your project:
    
 
-                                  npm install md-links-sa
+                            npm install md-links-sa / npm i md-links-sa
        
 ## 3. Usage
-
-
-                         const md-links = require ( 'md-links-sa' ) ;
    
    
    ###  🔧 **Main command.**
