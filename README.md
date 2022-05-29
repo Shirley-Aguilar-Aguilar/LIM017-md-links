@@ -19,7 +19,7 @@
    Install as a development dependency in your project:
    
 
-                  npm install md-links-sa / npm i md-links-sa
+      npm install md-links-sa / npm i md-links-sa
        
 ## 3. Usage
    
@@ -28,7 +28,7 @@
     
    Execute from the application the command with the following format:
    
-                    md-links <path-to-file> options
+      md-links <path-to-file> options
        
    a)path-to-file: Absolute or relative path to the file or directory.                                                                                               
    b)options: Command that provides the orders to obtain the statistics and information of the links.                                                                               (--stats, --validate, --stats --validate)
@@ -39,7 +39,7 @@
    
    Provides absolute path of the files markdown (*File), found link (Href) and its text (Text).
    
-               md-links ./examples/folder/directory1/other-folder
+      md-links ./examples/folder/directory1/other-folder
          
    **file:** Show absolute path of markdown file                                                                                                                       
    **Href:** Found link.                                                                                                                                               
@@ -51,7 +51,7 @@
    
    Provides absolute path of the files markdown (*File), found link (Href), its text (Text) and status code.
    
-           md-links ./examples/folder/directory1/other-folder --validate
+     md-links ./examples/folder/directory1/other-folder --validate
          
    
    **file:** Show absolute path of markdown file                                                                                                                       
@@ -67,7 +67,7 @@
    
    Provides statistics of the total number of links(Total) and links that are not repeated(Unique).
    
-           md-links ./examples/folder/directory1 --stats
+    md-links ./examples/folder/directory1 --stats
    
    ![image](https://user-images.githubusercontent.com/97176343/170593744-3e30fc0c-67ba-489c-bf31-c7261d8f931c.png)
    
@@ -75,9 +75,9 @@
    
    Provides statistics of total links(Total), links that are not repeated (Unique) and broken links (Broken).
    
-          md-links ./examples/folder/directory1 --validate --stats
+    md-links ./examples/folder/directory1 --validate --stats
            
-          md-links ./examples/folder/directory1 --stats --validate
+    md-links ./examples/folder/directory1 --stats --validate
    
    ![image](https://user-images.githubusercontent.com/97176343/170602129-97d4795d-2a9e-4f8a-aa13-e52be6ba7d29.png)
    
