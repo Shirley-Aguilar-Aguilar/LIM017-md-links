@@ -19,19 +19,19 @@
    Install as a development dependency in your project:
    
 
-                                                   npm install md-links-sa
+                                                 npm install md-links-sa
        
 ## 3. Usage
 
 
-                                          const md-links = require ( 'md-links-sa' ) ;
+                                        const md-links = require ( 'md-links-sa' ) ;
    
    
    ###  🔧 **Main command.**
     
    Execute from the application the command with the following format:
    
-                                                 md-links <path-to-file> options
+                                               md-links <path-to-file> options
        
    a)path-to-file: Absolute or relative path to the file or directory.                                                                                               
    b)options: Command that provides the orders to obtain the statistics and information of the links.                                                                               (--stats, --validate, --stats --validate)
