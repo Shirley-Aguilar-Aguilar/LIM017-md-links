@@ -1,6 +1,6 @@
 {
   "name": "md-links-sa",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "link analysis in markdown files ",
   "main": "src/index.js",
   "files": [
