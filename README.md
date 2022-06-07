@@ -4,7 +4,7 @@
 ![image](https://user-images.githubusercontent.com/97176343/170603374-0236e436-85b8-4577-adbd-a688d69e9984.png)
 
 
-## 📋 Índex
+## 📋 Index
 
 * [1. Description](#1-description)
 * [2. Installation](#2-installation)
