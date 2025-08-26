@@ -4,6 +4,7 @@ const {
   validityStatusCode, getLinks,
   getStatsUniqueBroken, getStatsUnique,
 } = require("../src/methods");
+const path = require("path");
 
 jest.mock("chalk", () => ({
   green: jest.fn(() => "green"),
@@ -20,26 +21,27 @@ jest.mock("chalk", () => ({
 
 describe("searchFilesOrDirectory", () => {
   it("if pathUser is a file return a file markdown", () => {
-    const pathUser = "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\readme1.md";
-    expect(searchFilesOrDirectory(pathUser, [])).toEqual(["C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\readme1.md"]);
+    const rutaAbsoluta = path.resolve("examples/readme1.md");
+    expect(searchFilesOrDirectory(rutaAbsoluta, [])).toEqual([rutaAbsoluta]);
   });
   it("if pathUSer is a folder return a array's file markdown", () => {
-    const pathUser = "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples";
-    expect(searchFilesOrDirectory(pathUser, [])[0]).toBe("C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme5.md");
+    const rutaAbsoluta = path.resolve("examples");
+    expect(searchFilesOrDirectory(rutaAbsoluta, [])[0]).toBe(rutaAbsoluta+"\\folder\\directory1\\readme5.md");
   });
 });
 
 describe("getTextFileHref", () => {
   it("Return an object array with file, href and text(text with less a 50 characters)", () => {
+    const rutaAbsoluta = path.resolve("./examples/folder/directory1/readme6.md");
     const arrayFiles = [
-      "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/directory1/readme6.md",
+      rutaAbsoluta,
     ];
     expect(getTextFileHref(arrayFiles)).toEqual([{
-      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/directory1/readme6.md",
+      file: rutaAbsoluta,
       href: "https://docs.npmjs.com/cli/install/shirley",
       text: "docs oficiales de npm install (más de 50 caractere",
     }, {
-      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/directory1/readme6.md",
+      file: rutaAbsoluta,
       href: "https://github.com/Laboratoria/course-parser",
       text: "`course-parser`",
     }]);
@@ -88,29 +90,29 @@ describe("validityStatusCode", () => {
 
 describe("getPropertiesOfObject", () => {
   it("Return an object array (file,href,text) when option is false", () => {
-    const route = "./examples/folder/directory1/readme6.md";
+    const rutaAbsoluta = path.resolve("./examples/folder/directory1/readme6.md");
     const optionTrueFalse = { validate: false };
-    return expect(getPropertiesOfObject(route, optionTrueFalse)).resolves.toEqual([{
-      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
+    return expect(getPropertiesOfObject(rutaAbsoluta, optionTrueFalse)).resolves.toEqual([{
+      file: rutaAbsoluta,
       href: "https://docs.npmjs.com/cli/install/shirley",
       text: "docs oficiales de npm install (más de 50 caractere",
     }, {
-      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
+      file: rutaAbsoluta,
       href: "https://github.com/Laboratoria/course-parser",
       text: "`course-parser`",
     }]);
   });
   it("Return an object array (file,href,text,statusCode,status) when option is true", () => {
-    const route = "./examples/folder/directory1/readme6.md";
+    const rutaAbsoluta = path.resolve("./examples/folder/directory1/readme6.md");
     const optionTrueFalse = { validate: true };
-    return expect(getPropertiesOfObject(route, optionTrueFalse)).resolves.toEqual([{
-      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
+    return expect(getPropertiesOfObject(rutaAbsoluta, optionTrueFalse)).resolves.toEqual([{
+      file: rutaAbsoluta,
       href: "https://docs.npmjs.com/cli/install/shirley",
       text: "docs oficiales de npm install (más de 50 caractere",
       statusCode: 404,
       status: "Fail",
     }, {
-      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
+      file: rutaAbsoluta,
       href: "https://github.com/Laboratoria/course-parser",
       text: "`course-parser`",
       statusCode: 301,
@@ -132,12 +134,12 @@ describe("getLinks", () => {
 describe("getStatsUniqueBroken", () => {
   it("Return an object array with data total and unique and broken", () => {
     const arrayObject = [{
-      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/directory1/readme6.md",
+      file: "C:\\Users\\shirl\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/directory1/readme6.md",
       href: "https://docs.npmjs.com/cli/install/shirley",
       text: "docs oficiales de `npm install` acá",
       status: "Fail",
     }, {
-      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
+      file: "C:\\Users\\shirl\\Desktop\\md-link\\LIM017-md-links\\examples\\folder\\directory1\\readme6.md",
       href: "https://github.com/Laboratoria/course-parser",
       text: "`course-parser`",
       statusCode: 301,
@@ -150,7 +152,7 @@ describe("getStatsUniqueBroken", () => {
 describe("getStatsUnique", () => {
   it("Return an object array with data total and unique", () => {
     const arrayObject = [{
-      file: "C:\\Users\\ruben\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/readme4.md",
+      file: "C:\\Users\\shirl\\Desktop\\md-link\\LIM017-md-links\\examples\\folder/readme4.md",
       href: "https://developers.google.com/v8/",
       text: "motor de JavaScript V8 de Chrome",
     }];

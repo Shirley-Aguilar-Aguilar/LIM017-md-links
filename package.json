@@ -39,17 +39,17 @@
   },
   "dependencies": {
     "chalk": "^4.1.2",
-    "jest": "^28.1.0"
+    "jest": "^30.0.5"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.17.10",
-    "@babel/plugin-transform-modules-commonjs": "^7.17.9",
-    "@babel/preset-env": "^7.17.10",
-    "babel-jest": "^27.5.1",
-    "eslint": "^8.16.0",
+    "@babel/cli": "^7.28.3",
+    "@babel/core": "^7.28.3",
+    "@babel/plugin-transform-modules-commonjs": "^7.27.1",
+    "@babel/preset-env": "^7.28.3",
+    "babel-jest": "^30.0.5",
+    "eslint": "^9.34.0",
     "eslint-config-airbnb-base": "^15.0.0",
-    "eslint-plugin-import": "^2.26.0"
+    "eslint-plugin-import": "^2.32.0"
   },
   "engines": {
     "node": ">=14"
