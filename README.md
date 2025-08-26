@@ -1,5 +1,5 @@
 # ✨ Markdown Links
-![coverage](https://img.shields.io/badge/coverage-98%25-yellowgreen) ![version](https://img.shields.io/badge/version-1.0.3-blue)
+![coverage](https://img.shields.io/badge/coverage-98%25-yellowgreen) ![version](https://img.shields.io/badge/version-1.0.4-blue)
 
 ![image](https://user-images.githubusercontent.com/97176343/170603374-0236e436-85b8-4577-adbd-a688d69e9984.png)
 
